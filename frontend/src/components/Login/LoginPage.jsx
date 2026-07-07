@@ -1,13 +1,28 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from '../../styles/styles';
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import {server} from "../../server"
+import toast from 'react-hot-toast';
+import { Navigate } from 'react-router-dom';
 const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [visible, setVisible] = useState(false);
 
+    const navigate = useNavigate();
+ const handleSubmitBtn = async (e) => {
+     e.preventDefault();
+     try {
+         const res = await axios.post(`${server}/user/login-user`, { email, password } , {withCredentials:true});
+         toast.success("user loggedIn")
+         navigate("/")
+     } catch (err) {
+    // console.log(err)
+    toast.error(err.response?.data?.message || "Something went wrong");
+     }
+ };
     return (
 
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -20,7 +35,8 @@ const LoginPage = () => {
             <div className="mt-8 mx-auto w-full sm:max-w-md">
                
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                    <form className="space-y-6">
+                    <form onSubmit={(e)=>handleSubmitBtn(e)}
+                    className="space-y-6">
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                 Email address

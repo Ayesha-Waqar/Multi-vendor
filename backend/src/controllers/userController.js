@@ -7,11 +7,13 @@ const PendingUser = require("../model/pendingUserModel");
 const ErrorHandler = require("../utils/ErrorHandler");
 const sendMail = require("../utils/sendMail");
 const sendToken = require("../utils/jwtToken");
+const catchAsyncErrors= require("../middlewares/catchAsyncError")
 
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { cloudinary } = require("../config/cloudinary");
-
+const userModel = require("../model/userModel");
+const {isAuthenticated} = require("../middlewares/auth")
 // ================= REGISTER =================
 
 userRouter.post("/create-user", async (req, res, next) => { 
@@ -140,5 +142,54 @@ const createActivationToken = (user) => {
     expiresIn: "5m",
   });
 };
+
+// ================= LOGIN =================
+userRouter.post(
+  "/login-user",
+  catchAsyncErrors(async (req, res, next) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return next(new ErrorHandler("Enter complete credentials", 400));
+    }
+
+    const userExists = await User.findOne({ email }).select("+password");
+
+    if (!userExists) {
+      return next(new ErrorHandler("User does not exist", 400));
+    }
+
+    const isPassValid = await bcrypt.compare(
+      password,
+      userExists.password
+    );
+
+    if (!isPassValid) {
+      return next(
+        new ErrorHandler("Please provide correct information", 400)
+      );
+    }
+
+    sendToken(userExists, 200, res);
+  })
+);
+
+//======================LOAD USER=============
+userRouter.get("/get-user" , isAuthenticated , catchAsyncErrors(async(req,res)=>{
+  try{
+    const user = await User.findById(req.user.id)
+    if(!user){
+      return next(new ErrorHandler("User doesnt exist" , 400))
+    }
+    res.status(200).json({
+      success:true ,
+      user,
+      message : "Logging user"
+    })
+  }
+  catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+}))
 
 module.exports = userRouter;
