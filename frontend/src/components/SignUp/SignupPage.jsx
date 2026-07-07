@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from '../../styles/styles';
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { RxAvatar } from "react-icons/rx"
 import { HiOutlineUpload } from "react-icons/hi";
-
+import axios from "axios"
+import { server } from "../../server"
+import toast from "react-hot-toast";
 const SignupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,15 +14,49 @@ const SignupPage = () => {
   const [visible, setVisible] = useState(false);
   const [avatar, setAvatar] = useState('')
 
-  const handleSubmit = async (e) => {
-    console.log("gggggggg")
-  }
+  const Navigate = useNavigate();
 
-  const handleFileInput = (e) => {
-    // console.log(e)
-    const file = e.target.files[0]
-    setAvatar(file)
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const { data } = await axios.post(
+      `${server}/user/create-user`,
+      {
+        name,
+        email,
+        password,
+        avatar,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    toast.success(data.message);
+  } catch (err) {
+    console.log("333333333333333333")
+    console.log(err)
+    
+    toast.error(err.response?.data?.message || "Something went wrong");
   }
+};
+
+const handleFileInput = (e) => {
+  const file = e.target.files[0];
+
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    if (reader.readyState === 2) {
+      setAvatar(reader.result);
+    }
+  };
+
+  reader.readAsDataURL(file);
+};
   return (
 
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -32,7 +68,8 @@ const SignupPage = () => {
 
       <div className="mt-8 mx-auto w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit}
+          className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Full Name
@@ -111,10 +148,10 @@ const SignupPage = () => {
                 <div className="relative h-16 w-16 rounded-full overflow-hidden border-2 border-white shadow-md bg-white flex items-center justify-center group">
                   {avatar ? (
                     <img
-                      src={URL.createObjectURL(avatar)}
-                      alt="avatar-preview"
-                      className="h-full w-full object-cover"
-                    />
+  src={avatar}
+  alt="avatar-preview"
+  className="h-full w-full object-cover"
+/>
                   ) : (
                     <RxAvatar className="h-full w-full text-gray-300" />
                   )}
