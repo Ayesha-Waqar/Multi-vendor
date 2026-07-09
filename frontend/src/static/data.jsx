@@ -39,9 +39,9 @@ export const navItems = [
           <path
             d="M1 1H5.63636V24.1818H35"
             stroke="#FFBB38"
-            stroke-width="2"
-            stroke-miterlimit="10"
-            stroke-linecap="square"
+            strokeWidth="2"
+            strokeMiterlimit="10"
+            strokeLinecap="square"
           ></path>
           <path
             d="M8.72763 35.0002C10.4347 35.0002 11.8185 33.6163 11.8185 31.9093C11.8185 30.2022 10.4347 28.8184 8.72763 28.8184C7.02057 28.8184 5.63672 30.2022 5.63672 31.9093C5.63672 33.6163 7.02057 35.0002 8.72763 35.0002Z"
@@ -222,20 +222,20 @@ export const navItems = [
       title: "Shoes",
       subTitle: "",
       image_Url:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvBQPQMVNRd6TtDkGs2dCri0Y-rxKkFOiEWw&usqp=CAU",
+        "https://gomilaintersole.pk/cdn/shop/files/Untitled_design_1_2a74c8e5-cf92-4a12-8e20-f5b38e001496.png?v=1780821673&width=1200",
     },
     {
       id: 6,
       title: "Gifts",
       subTitle: "",
       image_Url:
-        "https://securecdn.pymnts.com/wp-content/uploads/2014/11/Gifts-Photo-700x489.jpg",
+        "https://corporate.theelegance.pk/wp-content/uploads/2021/07/2-38.jpg",
     },
     {
       id: 7,
       title: "Pet Care",
       subTitle: "",
-      image_Url: "https://cdn.openpr.com/T/c/Tc15444071_g.jpg",
+      image_Url: "https://www.dewsolutions.in/wp-content/uploads/2021/09/Petcare.png",
     },
     {
       id: 8,
