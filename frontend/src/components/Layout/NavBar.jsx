@@ -13,14 +13,14 @@ const Navbar = ({ active, onLinkClick }) => {
             to={item.url}
             onClick={onLinkClick}
             className="group relative flex items-center w-full md:w-auto px-6 md:px-4 whitespace-nowrap
-                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-inset
+                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-inset
                        transition-colors duration-200"
             style={{ height: '48px' }}
           >
             {/* Mobile: left accent bar for active/hover state */}
             <span
               aria-hidden="true"
-              className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 rounded-r-full bg-teal-700 transition-all duration-200"
+              className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 rounded-r-full bg-brand transition-all duration-200"
               style={{
                 width: '3px',
                 height: isActive ? '60%' : '0%',
@@ -30,7 +30,7 @@ const Navbar = ({ active, onLinkClick }) => {
             {/* Desktop: animated bottom indicator */}
             <span
               aria-hidden="true"
-              className="hidden md:block absolute left-1/2 -translate-x-1/2 bottom-0 rounded-t-[3px] bg-white
+              className="hidden md:block absolute left-1/2 -translate-x-1/2 bottom-0 rounded-t-[3px] bg-brand-dark
                          transition-all duration-300 ease-out group-hover:w-[40%]"
               style={{
                 height: '3px',
@@ -39,7 +39,7 @@ const Navbar = ({ active, onLinkClick }) => {
             />
 
             <span
-              className="text-sm transition-colors duration-200 group-hover:text-white font-medium text-teal-700 md:text-white/80
+              className="text-sm transition-colors duration-200 group-hover:text-brand-text font-medium text-ink md:text-ink-light
                 "
               style={{ fontFamily: "'DM Sans', sans-serif" }}
             >

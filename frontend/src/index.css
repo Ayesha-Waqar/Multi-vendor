@@ -1,2 +1,22 @@
 @import "tailwindcss";
 
+/* Light, funky theme matching the logo's pastel bubble-letter look:
+   soft pink + soft sky blue on white, with dark ink outlines/text. */
+@theme {
+  /* pastel fills — buttons, chips, badges, icon circles */
+  --color-brand: #FFB3CB;
+  --color-brand-dark: #FF8FAF;
+  --color-brand-light: #FFF1F5;
+
+  --color-accent: #9BD8FF;
+  --color-accent-dark: #6EC3FF;
+  --color-accent-light: #F0FAFF;
+
+  /* saturated readable variants — links, prices, small text on white */
+  --color-brand-text: #E0417C;
+  --color-accent-text: #1878B0;
+
+  --color-ink: #23262E;
+  --color-ink-light: #4A4E58;
+}
+

@@ -17,7 +17,7 @@ const Categories = () => {
                 key={index}
                 className="flex items-center sm:items-start gap-4 rounded-xl border border-gray-100 bg-white p-4 sm:p-5 shadow-sm hover:shadow-md transition-shadow"
               >
-                <div className="flex items-center justify-center shrink-0 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-teal-50 text-teal-700 text-xl sm:text-2xl">
+                <div className="flex items-center justify-center shrink-0 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-accent-light text-accent-text text-xl sm:text-2xl">
                   {i.icon}
                 </div>
                 <div className="min-w-0">
@@ -55,7 +55,7 @@ const Categories = () => {
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") handleSubmit();
                   }}
-                  className="group flex flex-col items-center gap-2 sm:gap-3 rounded-xl border border-gray-100 bg-white p-3 sm:p-4 cursor-pointer hover:border-teal-200 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
+                  className="group flex flex-col items-center gap-2 sm:gap-3 rounded-xl border border-gray-100 bg-white p-3 sm:p-4 cursor-pointer hover:border-brand hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
                 >
                   <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden bg-gray-50 shrink-0">
                     <img
@@ -64,7 +64,7 @@ const Categories = () => {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                   </div>
-                  <h5 className="text-xs sm:text-sm font-medium text-gray-700 text-center leading-snug group-hover:text-teal-700 transition-colors">
+                  <h5 className="text-xs sm:text-sm font-medium text-gray-700 text-center leading-snug group-hover:text-brand-text transition-colors">
                     {i.title}
                   </h5>
                 </div>

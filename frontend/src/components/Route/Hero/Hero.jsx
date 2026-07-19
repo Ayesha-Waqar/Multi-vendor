@@ -72,15 +72,15 @@ const Hero = () => {
       {/* Ambient background accent */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-24 -right-24 w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-teal-100 blur-3xl opacity-60"
+        className="pointer-events-none absolute -top-24 -right-24 w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-accent-light blur-3xl opacity-60"
       />
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-12 md:py-16">
         <div className="grid md:grid-cols-2 gap-8 sm:gap-10 items-center">
           {/* Text column */}
           <div className="order-2 md:order-1">
-            <span className="inline-flex items-center gap-2 rounded-full bg-teal-50 px-3 py-1 text-xs sm:text-sm font-medium text-teal-700 mb-4">
-              <span className="w-1.5 h-1.5 rounded-full bg-teal-600" />
+            <span className="inline-flex items-center gap-2 rounded-full bg-brand-light px-3 py-1 text-xs sm:text-sm font-semibold text-brand-text mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand" />
               Welcome to Crown Market
             </span>
 
@@ -101,7 +101,7 @@ const Hero = () => {
             <div className="flex flex-col sm:flex-row flex-wrap gap-3">
               <Link
                 to={slide.link}
-                className="rounded-lg bg-teal-700 px-6 py-3 text-sm font-semibold text-white hover:bg-teal-800 transition text-center"
+                className="rounded-full bg-brand border-2 border-ink px-6 py-3 text-sm font-bold text-ink hover:bg-brand-dark transition text-center"
               >
                 {slide.cta}
               </Link>
@@ -127,7 +127,7 @@ const Hero = () => {
                   >
                     <span
                       className={`block h-2 rounded-full transition-all duration-300 ${
-                        i === index ? "w-8 bg-teal-700" : "w-2 bg-gray-300"
+                        i === index ? "w-8 bg-brand" : "w-2 bg-gray-300"
                       }`}
                     />
                   </button>

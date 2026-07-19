@@ -70,7 +70,7 @@ const Header = ({ activeHeading }) => {
               alt="Crown Market"
               className="h-9 sm:h-12 md:h-14 w-auto"
             />
-            <span className="text-base sm:text-xl md:text-2xl font-bold text-teal-800 whitespace-nowrap">
+            <span className="text-base sm:text-xl md:text-2xl font-bold text-ink whitespace-nowrap">
               Crown Market
             </span>
           </Link>
@@ -107,7 +107,7 @@ const Header = ({ activeHeading }) => {
           <div className="ml-auto md:ml-0 shrink-0 flex items-center gap-2">
             <Link
               to="/seller"
-              className="flex items-center gap-1.5 sm:gap-2 rounded-md bg-teal-600 px-3 sm:px-4 py-2 text-white hover:bg-teal-700 transition text-sm sm:text-base whitespace-nowrap"
+              className="flex items-center gap-1.5 sm:gap-2 rounded-full bg-brand border-2 border-ink px-3 sm:px-4 py-2 text-ink font-semibold hover:bg-brand-dark transition text-sm sm:text-base whitespace-nowrap"
             >
               <span className="font-medium">Become Seller</span>
               <IoIosArrowForward />
@@ -119,7 +119,7 @@ const Header = ({ activeHeading }) => {
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileMenuOpen}
-              className="md:hidden flex items-center justify-center w-10 h-10 rounded-md border border-gray-200 text-teal-700 hover:bg-gray-100 transition shrink-0"
+              className="md:hidden flex items-center justify-center w-10 h-10 rounded-md border border-gray-200 text-ink hover:bg-gray-100 transition shrink-0"
             >
               {mobileMenuOpen ? <HiOutlineX size={22} /> : <HiOutlineMenu size={22} />}
             </button>
@@ -157,7 +157,7 @@ const Header = ({ activeHeading }) => {
 
       {/* Bottom Navbar */}
       <div
-        className={`bg-teal-700 text-white transition-all duration-300 ${
+        className={`bg-accent-light text-ink border-b-2 border-ink/10 transition-all duration-300 ${
           sticky ? "fixed top-0 left-0 right-0 z-50 shadow-lg" : ""
         }`}
       >
@@ -170,7 +170,7 @@ const Header = ({ activeHeading }) => {
           <div className="relative w-full md:w-auto" ref={dropdownRef}>
             <div
               onClick={() => setDropDown(!dropDown)}
-              className="flex items-center justify-between md:justify-start gap-1.5 sm:gap-2 bg-white text-gray-700 px-3 sm:px-5 py-2 sm:py-3 rounded-md cursor-pointer hover:bg-gray-100 transition text-sm sm:text-base w-full md:w-auto"
+              className="flex items-center justify-between md:justify-start gap-1.5 sm:gap-2 bg-white text-ink border-2 border-ink/15 px-3 sm:px-5 py-2 sm:py-3 rounded-full cursor-pointer hover:border-brand transition text-sm sm:text-base w-full md:w-auto"
             >
               <span className="flex items-center gap-1.5 sm:gap-2">
                 <BiMenuAltLeft size={20} className="sm:hidden" />
@@ -195,7 +195,7 @@ const Header = ({ activeHeading }) => {
           </div>
 
           {/* navlinks */}
-          <div className="w-full md:w-auto bg-gray-50 md:bg-transparent rounded-md md:rounded-none">
+          <div className="w-full md:w-auto bg-white/70 md:bg-transparent rounded-full md:rounded-none">
             <NavBar
               active={activeHeading}
               onLinkClick={() => setMobileMenuOpen(false)}
@@ -203,15 +203,15 @@ const Header = ({ activeHeading }) => {
           </div>
 
           {/* Wishlist / Cart / Profile */}
-          <div className="flex items-center justify-center md:justify-start gap-5 sm:gap-6 w-full md:w-auto mt-1 pt-3 md:mt-0 md:pt-0 border-t border-white/15 md:border-none">
+          <div className="flex items-center justify-center md:justify-start gap-5 sm:gap-6 w-full md:w-auto mt-1 pt-3 md:mt-0 md:pt-0 border-t border-ink/10 md:border-none">
             <Link
               to="/wishlist"
               aria-label="Wishlist"
-              className="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-white/10 transition"
+              className="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-white transition"
             >
               <AiOutlineHeart size={20} className="sm:hidden" />
               <AiOutlineHeart size={22} className="hidden sm:block" />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] leading-none font-semibold rounded-full w-4 h-4 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-brand-dark text-ink text-[10px] leading-none font-bold rounded-full w-4 h-4 flex items-center justify-center border border-ink/20">
                 0
               </span>
             </Link>
@@ -219,11 +219,11 @@ const Header = ({ activeHeading }) => {
             <Link
               to="/cart"
               aria-label="Shopping cart"
-              className="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-white/10 transition"
+              className="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-white transition"
             >
               <AiOutlineShoppingCart size={20} className="sm:hidden" />
               <AiOutlineShoppingCart size={22} className="hidden sm:block" />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] leading-none font-semibold rounded-full w-4 h-4 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-brand-dark text-ink text-[10px] leading-none font-bold rounded-full w-4 h-4 flex items-center justify-center border border-ink/20">
                 0
               </span>
             </Link>
@@ -231,7 +231,7 @@ const Header = ({ activeHeading }) => {
             <Link
               to="/login"
               aria-label="Account"
-              className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-white/10 transition"
+              className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-white transition"
             >
               <CgProfile size={20} className="sm:hidden" />
               <CgProfile size={22} className="hidden sm:block" />

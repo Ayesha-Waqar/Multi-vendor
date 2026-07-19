@@ -30,7 +30,7 @@ const ProductCard = ({ data }) => {
 
       {/* Shop name */}
       <Link to="/">
-        <h5 className="text-xs sm:text-sm text-blue-600 hover:underline mt-2 truncate">
+        <h5 className="text-xs sm:text-sm text-accent-text hover:underline mt-2 truncate">
           {data.shop.name}
         </h5>
       </Link>
@@ -81,7 +81,7 @@ const ProductCard = ({ data }) => {
         ) : (
           <AiOutlineHeart
             size={20}
-            className="cursor-pointer text-gray-700 hover:text-red-500 transition-colors"
+            className="cursor-pointer text-gray-700 hover:text-brand-text transition-colors"
             onClick={() => setClick(!click)}
             title="Add to wishlist"
           />

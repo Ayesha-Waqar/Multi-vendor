@@ -59,7 +59,7 @@ const handleFileInput = (e) => {
 };
   return (
 
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-brand-light via-white to-accent-light flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-2xl sm:text-3xl font-extrabold text-gray-900">
           Register as a new user
@@ -67,7 +67,7 @@ const handleFileInput = (e) => {
       </div>
 
       <div className="mt-8 mx-auto w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="bg-white py-8 px-4 shadow-lg border-2 border-ink/5 sm:rounded-2xl sm:px-10">
           <form onSubmit={handleSubmit}
           className="space-y-6">
             <div>
@@ -82,7 +82,7 @@ const handleFileInput = (e) => {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-brand-dark focus:border-brand-dark sm:text-sm"
                 />
               </div>
             </div>
@@ -99,7 +99,7 @@ const handleFileInput = (e) => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-brand-dark focus:border-brand-dark sm:text-sm"
                 />
               </div>
             </div>
@@ -117,7 +117,7 @@ const handleFileInput = (e) => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm pr-10"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-brand-dark focus:border-brand-dark sm:text-sm pr-10"
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400">
                   {visible ? (
@@ -142,7 +142,7 @@ const handleFileInput = (e) => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Avatar Picture
               </label>
-              <div className="w-full p-4 border-2 border-dashed border-gray-300 rounded-xl bg-gray-50 flex flex-col items-center justify-center gap-3 transition-colors duration-200 hover:border-blue-400">
+              <div className="w-full p-4 border-2 border-dashed border-gray-300 rounded-xl bg-gray-50 flex flex-col items-center justify-center gap-3 transition-colors duration-200 hover:border-accent">
 
                 {/* Avatar Display wrapper */}
                 <div className="relative h-16 w-16 rounded-full overflow-hidden border-2 border-white shadow-md bg-white flex items-center justify-center group">
@@ -161,7 +161,7 @@ const handleFileInput = (e) => {
                 <div className="text-center">
                   <label
                     htmlFor="file-input"
-                    className="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150"
+                    className="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand transition duration-150"
                   >
                     <HiOutlineUpload className="text-gray-500 text-sm" />
                     <span>Choose File</span>
@@ -185,7 +185,7 @@ const handleFileInput = (e) => {
             <div>
               <button
                 type="submit"
-                className="group relative w-full h-[40px] flex justify-center items-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-150 ease-in-out"
+                className="group relative w-full h-[40px] flex justify-center items-center py-2 px-4 border border-transparent text-sm font-bold rounded-full text-ink bg-brand border-2 border-ink hover:bg-brand-dark transition duration-150 ease-in-out"
               >
                 Submit
               </button>
@@ -193,7 +193,7 @@ const handleFileInput = (e) => {
 
             <div className="flex items-center justify-center w-full text-sm pt-2">
               <h4 className="text-gray-600">Already have an account?</h4>
-              <Link to="/login" className="text-blue-600 font-medium pl-2 hover:underline">
+              <Link to="/login" className="text-brand-text font-medium pl-2 hover:underline">
                 Sign In
               </Link>
             </div>
