@@ -292,6 +292,9 @@ export const productData = [
     rating: 4,
     total_sell: 35,
     stock: 10,
+   
+  isEvent: true,
+  Finish_Date: "2026-07-30T23:59:59",
   },
   {
     id: 2,
@@ -321,6 +324,9 @@ export const productData = [
     rating: 5,
     total_sell: 80,
     stock: 10,
+    // Add these
+  isEvent: true,
+  Finish_Date: "2026-08-30T23:59:59",
   },
   {
     id: 1,
@@ -351,6 +357,9 @@ export const productData = [
     rating: 4,
     total_sell: 105,
     stock: 3,
+    // Add these
+  isEvent: true,
+  Finish_Date: "2026-09-30T23:59:59",
   },
   {
     id: 4,
@@ -381,6 +390,9 @@ export const productData = [
     rating: 4,
     total_sell: 12,
     stock: 10,
+    // Add these
+  isEvent: true,
+  Finish_Date: "2026-10-30T23:59:59",
   },
   {
     id: 5,
@@ -411,6 +423,9 @@ export const productData = [
     rating: 5,
     total_sell: 49,
     stock: 10,
+    // Add these
+  isEvent: false,
+  Finish_Date: "2026-07-30T23:59:59",
   },
   {
     id: 1,
@@ -450,6 +465,10 @@ export const productData = [
     total_sell: 20,
     stock: 10,
     category: "Music and Gaming",
+
+    // Add these
+  isEvent: true,
+  Finish_Date: "2026-12-30T23:59:59",
   },
   {
     id: 4,
@@ -479,6 +498,8 @@ export const productData = [
     rating: 4,
     total_sell: 62,
     stock: 10,
+    isEvent: false,
+  Finish_Date: "2026-07-30T23:59:59",
   },
   {
     id: 1,
@@ -517,6 +538,8 @@ export const productData = [
     ],
     total_sell: 20,
     stock: 10,
+    isEvent: false,
+  Finish_Date: "2026-07-30T23:59:59",
   },
   {
     id: 2,
@@ -546,6 +569,8 @@ export const productData = [
     rating: 5,
     total_sell: 20,
     stock: 10,
+    isEvent: true,
+  Finish_Date: "2027-07-30T23:59:59",
   },
   {
     id: 1,
@@ -585,6 +610,8 @@ export const productData = [
     ],
     total_sell: 20,
     stock: 10,
+    isEvent: false,
+  Finish_Date: "2026-07-30T23:59:59",
   },
 ];
 
@@ -643,3 +670,4 @@ export const footerSupportLinks = [
     name: "Live chat",
   },
 ];
+ 
