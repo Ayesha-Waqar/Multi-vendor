@@ -50,10 +50,18 @@ const ProductNotFound = () => (
 const ProductDetails = () => {
   const { slug } = useParams();
 
-  const product = useMemo(
-    () => productData.find((p) => p.name.replace(/\s+/g, "-") === slug),
-    [slug]
-  );
+const product = useMemo(() => {
+  const decoded = decodeURIComponent(slug);
+
+  return productData.find((item) => {
+    const dashSlug = item.name.replace(/\s+/g, "-");
+
+    return (
+      item.name === decoded ||       // Space URL
+      dashSlug === slug              // Dash URL
+    );
+  });
+}, [slug]);
 
   const images = product
     ? Array.isArray(product.image_Url)

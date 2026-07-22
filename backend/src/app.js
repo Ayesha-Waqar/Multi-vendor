@@ -22,7 +22,7 @@ app.use(express.json(
     {limit:"50mb"}
 ))
 app.use(cookieParser())
-app.use(bodyParser.urlencoded( {extend:true , limit:"50mb"}))
+app.use(bodyParser.urlencoded( {extended:true , limit:"50mb"}))
 app.use("/" , express.static("uploads"))
 app.use(cors({
     origin: "http://localhost:5173",

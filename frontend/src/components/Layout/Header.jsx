@@ -10,8 +10,13 @@ import { BiMenuAltLeft } from "react-icons/bi";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import logo from "../../assets/logo.png";
 import NavBar from "./NavBar";
+import {useSelector} from "react-redux"
+
+
 
 const Header = ({ activeHeading }) => {
+
+  const {isAuthenticated , user} = useSelector((state)=>state.user)
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [sticky, setSticky] = useState(false);
@@ -20,6 +25,8 @@ const Header = ({ activeHeading }) => {
 
   const dropdownRef = useRef(null);
 
+
+  // console.log(user)
   const handleSearchChange = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
@@ -58,8 +65,10 @@ const Header = ({ activeHeading }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  return (
-    <header className="w-full">
+  // if (loading) return null;
+
+return (
+  <header className="w-full">
       {/* Top Header */}
       <div className="w-full py-3 bg-white">
         <div className="max-w-10xl mx-auto px-4 flex flex-wrap items-center gap-3">
@@ -222,20 +231,34 @@ const Header = ({ activeHeading }) => {
                 0
               </span>
             </Link>
-
-            <Link
-              to="/login"
-              aria-label="Account"
-              className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-white transition"
-            >
-              <CgProfile size={20} className="sm:hidden" />
-              <CgProfile size={22} className="hidden sm:block" />
-            </Link>
+{
+  isAuthenticated ? (
+   <Link to="/profile">
+        <img
+          src={user?.avatar?.url}
+          alt={user?.name}
+          className="w-10 h-10 rounded-full object-cover border-2 border-pink-400"
+        />
+      </Link>
+  ) : (
+    <Link
+      to="/login"
+      aria-label="Login"
+      className="flex items-center gap-2 text-sm font-medium text-slate-700 hover:underline"
+    >
+      Login
+       <CgProfile size={20} className="sm:hidden" />
+      <CgProfile size={22} className="hidden sm:block" />
+    </Link>
+  )
+}
+           
           </div>
         </div>
       </div>
     </header>
-  );
+);
+
 };
 
 export default Header;

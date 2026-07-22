@@ -6,23 +6,35 @@ import { Link, useNavigate } from "react-router-dom";
 import {server} from "../../server"
 import toast from 'react-hot-toast';
 import { Navigate } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { loadUser } from "../../redux/actions/user";
+
+
 const LoginPage = () => {
+    const dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [visible, setVisible] = useState(false);
 
     const navigate = useNavigate();
- const handleSubmitBtn = async (e) => {
-     e.preventDefault();
-     try {
-         const res = await axios.post(`${server}/user/login-user`, { email, password } , {withCredentials:true});
-         toast.success("user loggedIn")
-         navigate("/")
-     } catch (err) {
-    // console.log(err)
+const handleSubmitBtn = async (e) => {
+  e.preventDefault();
+
+  try {
+    await axios.post(
+      `${server}/user/login-user`,
+      { email, password },
+      { withCredentials: true }
+    );
+
+    await dispatch(loadUser());
+
+    toast.success("User logged in successfully");
+    navigate("/");
+  } catch (err) {
     toast.error(err.response?.data?.message || "Something went wrong");
-     }
- };
+  }
+};
     return (
 
         <div className="min-h-screen bg-gradient-to-br from-brand-light via-white to-accent-light flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">

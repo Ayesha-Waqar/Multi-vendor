@@ -10,7 +10,7 @@ const DropDown = ({ categoriesData, setDropDown }) => {
   };
 
   return (
-    <div className="absolute top-full left-0 mt-2 w-full sm:w-72 md:w-80 bg-white rounded-lg shadow-xl border z-50 overflow-hidden">
+    <div className="absolute top-full left-0 mt-2 w-full sm:w-72 md:w-80 bg-white rounded-lg shadow-xl border z-50 max-h-[500px] overflow-y-auto">
       {categoriesData &&
         categoriesData.map((item, index) => (
           <div

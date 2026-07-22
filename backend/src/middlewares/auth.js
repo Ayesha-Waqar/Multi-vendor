@@ -6,18 +6,26 @@ const User = require("../model/userModel.js");
 const Shop = require("../model/shop.js");
 
 exports.isAuthenticated = catchAsyncErrors(async (req, res, next) => {
+   console.log("URL:", req.originalUrl);
+  console.log("Cookies:", req.cookies);
+  // console.log("Cookies:", req.cookies);
+
   const { token } = req.cookies;
+
+  console.log("Token:", token);
 
   if (!token) {
     return next(new ErrorHandler("please login to continue", 401));
   }
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  console.log("Decoded:", decoded);
+
   req.user = await User.findById(decoded.id);
+  console.log("User:", req.user);
 
   next();
 });
-
 
 exports.isSeller = catchAsyncErrors(async (req, res, next) => {
   const token =

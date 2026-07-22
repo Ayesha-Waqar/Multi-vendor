@@ -1,25 +1,27 @@
-import { useState, useEffect } from "react";
+import React from "react";
 import { productData } from "../../static/data";
 import EventCard from "./EventCard";
+import Header from "../Layout/Header";
 
 const eventProducts = productData.filter((item) => item.isEvent);
-const Events = () => {
-  const [currentEvent, setCurrentEvent] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentEvent((prev) => (prev + 1) % events.length);
-    }, 10000); // Change every 10 seconds
-
-    return () => clearInterval(interval);
-  }, []);
+const Events = ({ showAll = false }) => {
+  const productsToShow = showAll ? eventProducts : eventProducts.slice(0, 1);
 
   return (
+    <>
+     {showAll ? <Header/> : null}
     <div className="w-11/12 mx-auto py-12">
-      <h1 className="text-3xl font-bold mb-8">Popular Events</h1>
+      {/* <h1 className="text-3xl font-bold mb-8">Popular Events</h1> */}
 
-      <EventCard product={eventProducts[currentEvent]} />
+      <div className="flex flex-col gap-8">
+        {productsToShow.map((product) => (
+          <EventCard key={product.id} product={product} />
+        ))}
+      </div>
     </div>
+    </>
+    
   );
 };
 
