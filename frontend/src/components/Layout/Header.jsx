@@ -10,18 +10,21 @@ import { BiMenuAltLeft } from "react-icons/bi";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import logo from "../../assets/logo.png";
 import NavBar from "./NavBar";
-import {useSelector} from "react-redux"
-
-
+import { useSelector } from "react-redux"
+import Cart from "../Cart/Cart.jsx"
+import Wishlist from "../Wishlist/Wishlist.jsx"
 
 const Header = ({ activeHeading }) => {
 
-  const {isAuthenticated , user} = useSelector((state)=>state.user)
+  const { isAuthenticated, user } = useSelector((state) => state.user)
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [sticky, setSticky] = useState(false);
   const [dropDown, setDropDown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [openCart  , setOpenCart] = useState(false)
+  const [openWishlist  , setOpenWishlist] = useState(false)
+
 
   const dropdownRef = useRef(null);
 
@@ -65,10 +68,10 @@ const Header = ({ activeHeading }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // if (loading) return null;
 
-return (
-  <header className="w-full">
+
+  return ( 
+    <header className="w-full">
       {/* Top Header */}
       <div className="w-full py-3 bg-white">
         <div className="max-w-10xl mx-auto px-4 flex flex-wrap items-center gap-3">
@@ -208,8 +211,10 @@ return (
 
           {/* Wishlist / Cart / Profile */}
           <div className="flex items-center justify-center md:justify-start gap-5 sm:gap-6 w-full md:w-auto mt-1 pt-3 md:mt-0 md:pt-0 border-t border-ink/10 md:border-none">
-            <Link
-              to="/wishlist"
+
+            {/* Wishlist */}
+            <button
+              onClick={() => setOpenWishlist(true)}
               aria-label="Wishlist"
               className="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-white transition"
             >
@@ -218,10 +223,11 @@ return (
               <span className="absolute -top-1 -right-1 bg-brand-dark text-ink text-[10px] leading-none font-bold rounded-full w-4 h-4 flex items-center justify-center border border-ink/20">
                 0
               </span>
-            </Link>
+            </button>
 
-            <Link
-              to="/cart"
+            {/* Cart */}
+            <button
+              onClick={() => setOpenCart(true)}
               aria-label="Shopping cart"
               className="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-white transition"
             >
@@ -230,30 +236,39 @@ return (
               <span className="absolute -top-1 -right-1 bg-brand-dark text-ink text-[10px] leading-none font-bold rounded-full w-4 h-4 flex items-center justify-center border border-ink/20">
                 0
               </span>
-            </Link>
-{
-  isAuthenticated ? (
-   <Link to="/profile">
-        <img
-          src={user?.avatar?.url}
-          alt={user?.name}
-          className="w-10 h-10 rounded-full object-cover border-2 border-pink-400"
-        />
-      </Link>
-  ) : (
-    <Link
-      to="/login"
-      aria-label="Login"
-      className="flex items-center gap-2 text-sm font-medium text-slate-700 hover:underline"
-    >
-      Login
-       <CgProfile size={20} className="sm:hidden" />
-      <CgProfile size={22} className="hidden sm:block" />
-    </Link>
-  )
-}
-           
+            </button>
+
           </div>
+
+          {
+            openCart && <Cart  setOpenCart={setOpenCart}/>
+          }
+          {
+            openWishlist && <Wishlist setOpenWishlist={setOpenWishlist}/>
+          }
+
+          {
+            isAuthenticated ? (
+              <Link to="/profile">
+                <img
+                  src={user?.avatar?.url}
+                  alt={user?.name}
+                  className="w-10 h-10 rounded-full object-cover border-2 border-pink-400"
+                />
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                aria-label="Login"
+                className="flex items-center gap-2 text-sm font-medium text-slate-700 hover:underline"
+              >
+                Login
+                <CgProfile size={20} className="sm:hidden" />
+                <CgProfile size={22} className="hidden sm:block" />
+              </Link>
+            )
+          }
+
         </div>
       </div>
     </header>

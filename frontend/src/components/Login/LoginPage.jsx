@@ -31,6 +31,7 @@ const handleSubmitBtn = async (e) => {
 
     toast.success("User logged in successfully");
     navigate("/");
+    window.location.reload(true)
   } catch (err) {
     toast.error(err.response?.data?.message || "Something went wrong");
   }

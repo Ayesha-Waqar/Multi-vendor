@@ -3,13 +3,13 @@ import {server} from "../../server"
 
 //==============load user==========
 export const loadUser = ()=>async(dispatch)=>{
-      console.log("loadUser called");
+    //   console.log("loadUser called");
     try{
         dispatch({
            type :"LoadUserRequest",
         })
         const {data}=await axios.get(`${server}/user/get-user` , {withCredentials:true});
-        console.log("user login" , data)
+        // console.log("user login" , data)
         dispatch ({
             type:"LoadUserSuccess",
             payload : data.user , 
@@ -17,8 +17,8 @@ export const loadUser = ()=>async(dispatch)=>{
         
     }
     catch(err){
-         console.log(err);
-  console.log(err.response);
+        //  console.log(err);
+//   console.log(err.response);
 
         dispatch({
             type : "LoadUserFail" , 

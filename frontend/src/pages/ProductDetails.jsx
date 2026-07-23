@@ -10,6 +10,7 @@ import {
 } from "react-icons/ai";
 import { productData } from "../static/data";
 import ProductCard from "../components/Route/ProductCard/ProductCard";
+import Header from "../components/Layout/Header";
 
 const StarRating = ({ rating }) => {
   const stars = [];
@@ -99,6 +100,8 @@ const product = useMemo(() => {
     .slice(0, 4);
 
   return (
+   <>
+   <Header/>
     <div className="bg-gradient-to-b from-pink-50 via-white to-blue-50 min-h-screen">
       <div className="max-w-6xl mx-auto px-3 sm:px-5 lg:px-6 py-4">
         {/* Breadcrumb */}
@@ -333,6 +336,8 @@ const product = useMemo(() => {
         <div className="h-10"></div>
       </div>
     </div>
+   </>
+   
   );
 };
 
