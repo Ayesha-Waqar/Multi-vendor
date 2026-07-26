@@ -96,7 +96,7 @@ const product = useMemo(() => {
       : 0;
 
   const relatedProducts = productData
-    .filter((p) => p.category === product.category && p._id !== product._id)
+    .filter((p) => p.category === product.category && p.id !== product._id)
     .slice(0, 4);
 
   return (
@@ -326,7 +326,7 @@ const product = useMemo(() => {
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
               {relatedProducts.map((item) => (
-                <ProductCard data={item} key={item._id} />
+                <ProductCard data={item} key={item.id} />
               ))}
             </div>
           </div>

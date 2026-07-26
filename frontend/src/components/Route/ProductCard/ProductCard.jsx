@@ -88,7 +88,7 @@ const ProductCard = ({ data, addToCartHandler }) => {
           </h5>
         </Link>
 
-        <Link to={`/product/${productSlug}`} className="block">
+        <Link to={`/product/${productSlug}`} className=" block">
           <h4
             title={data.name}
             className="mt-1 text-sm sm:text-base font-medium text-gray-800 leading-snug line-clamp-2 min-h-[2.5rem]"
