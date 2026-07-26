@@ -6,6 +6,7 @@ import ProductDetails from "../pages/ProductDetails.jsx";
 import Products from "../pages/Products.jsx"
 import BestSelling from "../pages/BestSelling.jsx"
 import Faq from "../pages/Faq.jsx"
+import Profile from "../pages/Profile.jsx"
 export {
     Login ,
     SignUp,
@@ -14,5 +15,6 @@ export {
     ProductDetails,
     Products,
     BestSelling,
-    Faq
+    Faq,
+    Profile
 }

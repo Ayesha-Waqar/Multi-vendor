@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
-import { Login, SignUp, Activation, Home, ProductDetails , Products , BestSelling  , Faq} from './routes/Routes'
+import { Login, SignUp, Activation, Home, ProductDetails , Products , BestSelling  , Faq ,Profile } from './routes/Routes'
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import "./app.css"
@@ -35,8 +35,7 @@ const App = () => {
         <Route path="/product/:slug" element={<ProductDetails />} />
         <Route path="/events" element={<Events showAll/>}/>
          <Route path="/faq" element={<Faq/>}/>
-
-
+         <Route path="/profile" element={<Profile/>}/>
       </Routes>
     </>
   )
