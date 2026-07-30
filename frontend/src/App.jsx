@@ -17,7 +17,7 @@ const App = () => {
     const {loading} = useSelector((state)=>state.user)
 
   useEffect(() => {
-  console.log("App mounted");
+  // console.log("App mounted");
   Store.dispatch(loadUser());
 }, []);
 
