@@ -7,6 +7,10 @@ import Products from "../pages/Products.jsx"
 import BestSelling from "../pages/BestSelling.jsx"
 import Faq from "../pages/Faq.jsx"
 import Profile from "../pages/Profile.jsx"
+import OrderDetailsPage from "../pages/OrderDetailsPage.jsx"
+import TrackOrderPage from "../pages/TrackOrderPage.jsx"
+import UserInbox from "../pages/UserInbox.jsx"
+import ShopCreatePage from "../pages/ShopCreatePage.jsx"
 export {
     Login ,
     SignUp,
@@ -16,5 +20,9 @@ export {
     Products,
     BestSelling,
     Faq,
-    Profile
+    Profile, 
+    OrderDetailsPage,
+    TrackOrderPage,
+    UserInbox,
+    ShopCreatePage
 }

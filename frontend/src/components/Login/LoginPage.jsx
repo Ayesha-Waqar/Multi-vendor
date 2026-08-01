@@ -33,6 +33,7 @@ const handleSubmitBtn = async (e) => {
     navigate("/");
     window.location.reload(true)
   } catch (err) {
+    console.log("login")
     toast.error(err.response?.data?.message || "Something went wrong");
   }
 };

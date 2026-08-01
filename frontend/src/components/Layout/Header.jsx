@@ -113,15 +113,36 @@ const Header = ({ activeHeading }) => {
             )}
           </div>
 
-          {/* Seller Button + Mobile Menu Toggle */}
+          {/* Seller Button + Login/Profile (mobile) + Mobile Menu Toggle */}
           <div className="ml-auto md:ml-0 shrink-0 flex items-center gap-2">
             <Link
-              to="/seller"
+              to="/create-shop"
               className="flex items-center gap-1.5 sm:gap-2 rounded-full bg-brand border-2 border-ink px-3 sm:px-4 py-2 text-ink font-semibold hover:bg-brand-dark transition text-sm sm:text-base whitespace-nowrap"
             >
               <span className="font-medium">Become Seller</span>
               <IoIosArrowForward />
             </Link>
+
+            {/* Login/Profile - mobile only, shown next to hamburger */}
+            <div className="md:hidden flex items-center">
+              {isAuthenticated ? (
+                <Link to="/profile">
+                  <img
+                    src={user?.avatar?.url}
+                    alt={user?.name}
+                    className="w-9 h-9 rounded-full object-cover border-2 border-pink-400"
+                  />
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  aria-label="Login"
+                  className="flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 text-ink hover:bg-gray-100 transition"
+                >
+                  <CgProfile size={20} />
+                </Link>
+              )}
+            </div>
 
             {/* Hamburger icon - mobile/tablet only */}
             <button
@@ -247,27 +268,30 @@ const Header = ({ activeHeading }) => {
             openWishlist && <Wishlist setOpenWishlist={setOpenWishlist}/>
           }
 
-          {
-            isAuthenticated ? (
-              <Link to="/profile">
-                <img
-                  src={user?.avatar?.url}
-                  alt={user?.name}
-                  className="w-10 h-10 rounded-full object-cover border-2 border-pink-400"
-                />
-              </Link>
-            ) : (
-              <Link
-                to="/login"
-                aria-label="Login"
-                className="flex items-center gap-2 text-sm font-medium text-slate-700 hover:underline"
-              >
-                Login
-                <CgProfile size={20} className="sm:hidden" />
-                <CgProfile size={22} className="hidden sm:block" />
-              </Link>
-            )
-          }
+          {/* Profile/Login - desktop only (mobile version shown next to hamburger above) */}
+          <div className="hidden md:block">
+            {
+              isAuthenticated ? (
+                <Link to="/profile">
+                  <img
+                    src={user?.avatar?.url}
+                    alt={user?.name}
+                    className="w-10 h-10 rounded-full object-cover border-2 border-pink-400"
+                  />
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  aria-label="Login"
+                  className="flex items-center gap-2 text-sm font-medium text-slate-700 hover:underline"
+                >
+                  Login
+                  <CgProfile size={20} className="sm:hidden" />
+                  <CgProfile size={22} className="hidden sm:block" />
+                </Link>
+              )
+            }
+          </div>
 
         </div>
       </div>

@@ -192,4 +192,25 @@ userRouter.get("/get-user" , isAuthenticated , catchAsyncErrors(async(req,res)=>
   }
 }))
 
+
+//======================LOGOUT USER=============
+userRouter.get("/logout" ,isAuthenticated,catchAsyncErrors(async(req,res,next)=>{
+  try{
+    res.clearCookie("token" ,null , {
+      expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+    httpOnly: true,
+    sameSite: "lax",
+    secure: false,
+    })
+
+    res.status(200).json({
+      success : true , 
+      message : "Logged Out"
+    })
+  }
+   catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+}))
+
 module.exports = userRouter;

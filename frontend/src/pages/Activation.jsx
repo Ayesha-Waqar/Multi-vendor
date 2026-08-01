@@ -27,6 +27,7 @@ const ActivationPage = () => {
 
         navigate("/");
       } catch (error) {
+        console.log("activation")
         toast.error(
           error.response?.data?.message || "Activation Failed"
         );

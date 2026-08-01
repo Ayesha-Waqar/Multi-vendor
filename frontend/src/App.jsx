@@ -2,7 +2,25 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
-import { Login, SignUp, Activation, Home, ProductDetails , Products , BestSelling  , Faq ,Profile } from './routes/Routes'
+import "react-toastify/dist/ReactToastify.css";
+import {
+  Login,
+  SignUp,
+  Activation,
+  Home,
+  ProductDetails,
+  Products,
+  BestSelling,
+  Faq,
+  Profile,
+  OrderDetailsPage,
+  TrackOrderPage,
+  UserInbox,
+  ShopCreatePage
+} from './routes/Routes'
+import CheckOut from "./pages/CheckOut.jsx"
+import PaymentPage from "./pages/PaymentPage.jsx";
+import OrderSuccessPage from "./pages/OrderSuccessPage"
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import "./app.css"
@@ -12,30 +30,95 @@ import { loadUser } from './redux/actions/user'
 import ScrollToTop from './components/ScrollToTop'
 import Events from './components/Events/Events'
 import { useSelector } from 'react-redux'
+import ProtectedRoute from './ProtectedRoute'
+
 
 const App = () => {
-    const {loading} = useSelector((state)=>state.user)
+  const { loading, isAuthenticated } = useSelector((state) => state.user)
 
   useEffect(() => {
-  // console.log("App mounted");
-  Store.dispatch(loadUser());
-}, []);
+    console.log("App mounted");
+    Store.dispatch(loadUser());
+  }, []);
 
-  return  loading ?  null : ( 
+  return loading ? null : (
     <>
       <Toaster />
-      <ScrollToTop/>
+      <ScrollToTop />
       <Routes>
         <Route path="/Login" element={<Login />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/activation/:token" element={<Activation />} />
         <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products/>}/>
-        <Route path="/best-selling" element={<BestSelling/>}/>
+        <Route path="/products" element={<Products />} />
+        <Route path="/best-selling" element={<BestSelling />} />
         <Route path="/product/:slug" element={<ProductDetails />} />
-        <Route path="/events" element={<Events showAll/>}/>
-         <Route path="/faq" element={<Faq/>}/>
-         <Route path="/profile" element={<Profile/>}/>
+        <Route path="/events" element={<Events showAll />} />
+        <Route path="/faq" element={<Faq />} />
+
+        {/* Protected Routes*/}
+        <Route path="/profile"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated} >
+              <Profile />
+            </ProtectedRoute>} />
+
+        <Route path="/checkout"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated} >
+              <CheckOut />
+            </ProtectedRoute>} />
+
+        <Route
+          path="/payment"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}>
+              <PaymentPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/inbox"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}>
+              <UserInbox />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user/order/:id"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}>
+              <OrderDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user/track/order/:id"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}>
+              <TrackOrderPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order/success"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}>
+              <OrderSuccessPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Shop Routes  */}
+        <Route path="/create-shop" element={<ShopCreatePage />} />
       </Routes>
     </>
   )
