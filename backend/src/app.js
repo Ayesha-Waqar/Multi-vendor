@@ -12,8 +12,10 @@ const express = require("express")
 const cookieParser = require("cookie-parser")
 const bodyParser = require("body-parser")
 const userController = require("./controllers/userController")
+const shopController = require("./controllers/shopController")
 const errorMiddleware = require("./middlewares/error");
 const userRouter = require("./controllers/userController")
+const shopRouter = require("./controllers/shopController")
 const cors = require("cors")
 
 
@@ -43,6 +45,8 @@ app.get("/" , (req,res)=>{
 
 //import paths
 app.use("/api/v2/user" , userRouter)
+app.use("/api/v2/shop" , shopRouter)
+
 
 
 

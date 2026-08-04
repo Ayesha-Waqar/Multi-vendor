@@ -16,47 +16,52 @@ const SignupPage = () => {
 
   const Navigate = useNavigate();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    const { data } = await axios.post(
-      `${server}/user/create-user`,
-      {
-        name,
-        email,
-        password,
-        avatar,
-      },
-      {
-        withCredentials: true,
-      }
-    );
+    try {
+      const { data } = await axios.post(
+        `${server}/user/create-user`,
+        {
+          name,
+          email,
+          password,
+          avatar,
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
-    toast.success(data.message);
-  } catch (err) {
-    console.log("333333333333333333")
-    console.log(err)
-    
-    toast.error(err.response?.data?.message || "Something went wrong");
-  }
-};
+      toast.success(data.message);
+    } catch (err) {
+      // console.log("333333333333333333")
+      console.log(err)
 
-const handleFileInput = (e) => {
-  const file = e.target.files[0];
-
-  if (!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = () => {
-    if (reader.readyState === 2) {
-      setAvatar(reader.result);
+      toast.error(err.response?.data?.message || "Something went wrong");
     }
   };
 
-  reader.readAsDataURL(file);
-};
+  const handleFileInput = (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("File is too large. Max size is 5MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setAvatar(reader.result);
+      }
+    };
+
+    reader.readAsDataURL(file);
+  };
   return (
 
     <div className="min-h-screen bg-gradient-to-br from-brand-light via-white to-accent-light flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -69,7 +74,7 @@ const handleFileInput = (e) => {
       <div className="mt-8 mx-auto w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow-lg border-2 border-ink/5 sm:rounded-2xl sm:px-10">
           <form onSubmit={handleSubmit}
-          className="space-y-6">
+            className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Full Name
@@ -148,10 +153,10 @@ const handleFileInput = (e) => {
                 <div className="relative h-16 w-16 rounded-full overflow-hidden border-2 border-white shadow-md bg-white flex items-center justify-center group">
                   {avatar ? (
                     <img
-  src={avatar}
-  alt="avatar-preview"
-  className="h-full w-full object-cover"
-/>
+                      src={avatar}
+                      alt="avatar-preview"
+                      className="h-full w-full object-cover"
+                    />
                   ) : (
                     <RxAvatar className="h-full w-full text-gray-300" />
                   )}

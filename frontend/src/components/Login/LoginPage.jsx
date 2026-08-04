@@ -3,7 +3,7 @@ import axios from 'axios';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from '../../styles/styles';
 import { Link, useNavigate } from "react-router-dom";
-import {server} from "../../server"
+import { server } from "../../server"
 import toast from 'react-hot-toast';
 import { Navigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
@@ -17,26 +17,26 @@ const LoginPage = () => {
     const [visible, setVisible] = useState(false);
 
     const navigate = useNavigate();
-const handleSubmitBtn = async (e) => {
-  e.preventDefault();
+    const handleSubmitBtn = async (e) => {
+        e.preventDefault();
 
-  try {
-    await axios.post(
-      `${server}/user/login-user`,
-      { email, password },
-      { withCredentials: true }
-    );
+        try {
+            await axios.post(
+                `${server}/user/login-user`,
+                { email, password },
+                { withCredentials: true }
+            );
 
-    await dispatch(loadUser());
+            await dispatch(loadUser());
 
-    toast.success("User logged in successfully");
-    navigate("/");
-    window.location.reload(true)
-  } catch (err) {
-    console.log("login")
-    toast.error(err.response?.data?.message || "Something went wrong");
-  }
-};
+            toast.success("User logged in successfully");
+            navigate("/");
+            window.location.reload(true)
+        } catch (err) {
+            console.log("login")
+            toast.error(err.response?.data?.message || "Something went wrong");
+        }
+    };
     return (
 
         <div className="min-h-screen bg-gradient-to-br from-brand-light via-white to-accent-light flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -47,10 +47,10 @@ const handleSubmitBtn = async (e) => {
             </div>
 
             <div className="mt-8 mx-auto w-full sm:max-w-md">
-               
+
                 <div className="bg-white py-8 px-4 shadow-lg border-2 border-ink/5 sm:rounded-2xl sm:px-10">
-                    <form onSubmit={(e)=>handleSubmitBtn(e)}
-                    className="space-y-6">
+                    <form onSubmit={(e) => handleSubmitBtn(e)}
+                        className="space-y-6">
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                 Email address
@@ -72,7 +72,7 @@ const handleSubmitBtn = async (e) => {
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                                 Password
                             </label>
-                           
+
                             <div className="relative mt-1">
                                 <input
                                     type={visible ? "text" : "password"}
@@ -101,7 +101,7 @@ const handleSubmitBtn = async (e) => {
                             </div>
                         </div>
 
-                        
+
                         <div className="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between text-sm">
                             <div className="flex items-center">
                                 <input
