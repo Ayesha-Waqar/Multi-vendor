@@ -17,7 +17,8 @@ import {
   UserInbox,
   ShopCreatePage,
   UserActivation,
-  SellerActivation
+  SellerActivation,
+  ShopLoginPage
 } from './routes/Routes'
 import CheckOut from "./pages/CheckOut.jsx"
 import PaymentPage from "./pages/PaymentPage.jsx";
@@ -120,6 +121,7 @@ const App = () => {
 
         {/* Shop Routes  */}
         <Route path="/create-shop" element={<ShopCreatePage />} />
+        <Route path="/shop-login" element={<ShopLoginPage />} />
         <Route path="/shop-activation/:token" element={< SellerActivation/>} />
 
       </Routes>

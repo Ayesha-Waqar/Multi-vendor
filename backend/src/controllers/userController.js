@@ -146,11 +146,11 @@ userRouter.post("/user-activation/:token", async (req, res, next) => {
 });
 // ================= TOKEN =================
 
-const createActivationToken = (user) => {
-  return jwt.sign(user, process.env.ACTIVATION_SECRET, {
-    expiresIn: "5m",
-  });
-};
+// const createActivationToken = (user) => {
+//   return jwt.sign(user, process.env.ACTIVATION_SECRET, {
+//     expiresIn: "5m",
+//   });
+// };
 
 // ================= LOGIN =================
 userRouter.post(

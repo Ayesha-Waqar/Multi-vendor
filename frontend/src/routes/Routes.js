@@ -12,6 +12,7 @@ import OrderDetailsPage from "../pages/OrderDetailsPage.jsx"
 import TrackOrderPage from "../pages/TrackOrderPage.jsx"
 import UserInbox from "../pages/UserInbox.jsx"
 import ShopCreatePage from "../pages/ShopCreatePage.jsx"
+import ShopLoginPage from "../pages/ShopLoginPage.jsx"
 export {
     Login ,
     SignUp,
@@ -26,5 +27,6 @@ export {
     TrackOrderPage,
     UserInbox,
     ShopCreatePage,
-    SellerActivation
+    SellerActivation,
+    ShopLoginPage
 }

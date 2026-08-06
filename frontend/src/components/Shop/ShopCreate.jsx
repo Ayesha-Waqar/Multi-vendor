@@ -256,7 +256,7 @@ const ShopCreate = () => {
             </span>
 
             <Link
-              to="/seller-login"
+              to="/shop-login"
               className="ml-2 font-semibold text-sky-600 hover:text-pink-500"
             >
               Login

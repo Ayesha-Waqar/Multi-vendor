@@ -7,8 +7,9 @@ const PendingShop = require("../model/pendingShopModel");
 const ErrorHandler = require("../utils/ErrorHandler");
 const sendMail = require("../utils/sendMail");
 const sendToken = require("../utils/jwtToken");
-
+const catchAsyncErrors = require("../middlewares/catchAsyncError")
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const { cloudinary } = require("../config/cloudinary");
 
 // ================= REGISTER =================
@@ -83,7 +84,7 @@ shopRouter.post("/create-shop", async (req, res, next) => {
 
     await sendMail({
       email,
-      subject: "Activate Your Seller Account",
+      subject: "Activate Your Seller Account", 
       text: `Click the link below to activate your seller account.
 
 
@@ -157,5 +158,43 @@ shopRouter.post("/shop-activation/:token", async (req, res, next) => {
     return next(new ErrorHandler(error.message, 500));
   }
 });
+
+// const createActivationToken = (shop) => {
+//   return jwt.sign(shop, process.env.ACTIVATION_SECRET, {
+//     expiresIn: "5m",
+//   });
+// };
+
+// ================= LOGIN =================
+shopRouter.post(
+  "/login-seller",
+  catchAsyncErrors(async (req, res, next) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return next(new ErrorHandler("Enter complete credentials", 400));
+    }
+
+    const shopExists = await Shop.findOne({ email }).select("+password");
+
+    if (!shopExists) {
+      return next(new ErrorHandler("Seller does not exist", 400));
+    }
+
+    const isPassValid = await bcrypt.compare(
+      password,
+      shopExists.password
+    );
+
+    if (!isPassValid) {
+      return next(
+        new ErrorHandler("Please provide correct information", 400)
+      );
+    }
+
+    sendToken(shopExists, 200, res);
+  })
+);
+
 
 module.exports = shopRouter;
