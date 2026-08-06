@@ -22,28 +22,28 @@ const ShopCreate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // try {
-    //   const { data } = await axios.post(
-    //     `${server}/user/create-user`,
-    //     {
-    //       name,
-    //       email,
-    //       password,
-    //       avatar,
-    //       phoneNumber: phoneNo,
-    //       address,
-    //       zipCode,
-    //     },
-    //     {
-    //       withCredentials: true,
-    //     }
-    //   );
-
-    //   toast.success(data.message);
-    //   navigate("/login");
-    // } catch (err) {
-    //   toast.error(err.response?.data?.message || "Something went wrong");
-    // }
+    try {
+      const { data } = await axios.post(
+        `${server}/shop/create-shop`,
+        {
+          name,
+          email,
+          password,
+          avatar,
+          phoneNumber: phoneNo,
+          address,
+          zipCode,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data)
+      toast.success(data.message);
+      navigate("/shop-login");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Something went wrong");
+    }
   };
 
   const handleFileInput = (e) => {

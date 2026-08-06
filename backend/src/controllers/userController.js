@@ -7,16 +7,17 @@ const PendingUser = require("../model/pendingUserModel");
 const ErrorHandler = require("../utils/ErrorHandler");
 const sendMail = require("../utils/sendMail");
 const sendToken = require("../utils/jwtToken");
-const catchAsyncErrors= require("../middlewares/catchAsyncError")
+const catchAsyncErrors = require("../middlewares/catchAsyncError")
 
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { cloudinary } = require("../config/cloudinary");
 const userModel = require("../model/userModel");
-const {isAuthenticated} = require("../middlewares/auth")
+const { isAuthenticated } = require("../middlewares/auth")
+
 // ================= REGISTER =================
 
-userRouter.post("/create-user", async (req, res, next) => { 
+userRouter.post("/create-user", async (req, res, next) => {
   // console.log("Create user route hit");
   // console.log(req.body);
   try {
@@ -34,7 +35,7 @@ userRouter.post("/create-user", async (req, res, next) => {
 
     await PendingUser.deleteOne({ email });
 
-    
+
 
     const pendingUser = await PendingUser.create({
       name,
@@ -57,7 +58,8 @@ userRouter.post("/create-user", async (req, res, next) => {
     await pendingUser.save();
 
     const activationUrl =
-`${process.env.FRONTEND_URL}/activation/${activationToken}`;
+      `${process.env.FRONTEND_URL}/user-activation/${activationToken}`;
+      console.log(activationUrl)
 
     await sendMail({
       email,
@@ -72,26 +74,31 @@ ${activationUrl}`,
       message: "Please check your email to activate your account.",
     });
 
-  }  catch (error) {
-  console.error(error.stack);
-  res.status(500).json({
-    success: false,
-    message: error.message,
-  });
-}
+  } catch (error) {
+    console.error(error.stack);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 });
 
 // ================= ACTIVATE ACCOUNT =================
 
-userRouter.post("/activation/:token", async (req, res, next) => {
+userRouter.post("/user-activation/:token", async (req, res, next) => {
+    // console.log("🔥 USER ACTIVATION ROUTE HIT");
   try {
     const { token } = req.params;
+    // console.log("Received token:", token);
 
     // Verify JWT
     const decoded = jwt.verify(token, process.env.ACTIVATION_SECRET);
+    // console.log("decoded" , decoded)
 
     // Find pending user
     const pendingUser = await PendingUser.findById(decoded.id);
+    // console.log(pendingUser)
+
 
     if (!pendingUser) {
       return next(new ErrorHandler("Activation link is invalid or expired", 400));
@@ -132,6 +139,8 @@ userRouter.post("/activation/:token", async (req, res, next) => {
     sendToken(createdUser, 201, res);
 
   } catch (error) {
+    console.log("ERROR BLOCK")
+     console.log(error);
     return next(new ErrorHandler(error.message, 500));
   }
 });
@@ -175,16 +184,16 @@ userRouter.post(
 );
 
 //======================LOAD USER=============
-userRouter.get("/get-user" , isAuthenticated , catchAsyncErrors(async(req,res)=>{
-  try{
+userRouter.get("/get-user", isAuthenticated, catchAsyncErrors(async (req, res) => {
+  try {
     const user = await User.findById(req.user.id)
-    if(!user){
-      return next(new ErrorHandler("User doesnt exist" , 400))
+    if (!user) {
+      return next(new ErrorHandler("User doesnt exist", 400))
     }
     res.status(200).json({
-      success:true ,
+      success: true,
       user,
-      message : "Logging user"
+      message: "Logging user"
     })
   }
   catch (error) {
@@ -194,21 +203,21 @@ userRouter.get("/get-user" , isAuthenticated , catchAsyncErrors(async(req,res)=>
 
 
 //======================LOGOUT USER=============
-userRouter.get("/logout" ,isAuthenticated,catchAsyncErrors(async(req,res,next)=>{
-  try{
-    res.clearCookie("token" ,null , {
+userRouter.get("/logout", isAuthenticated, catchAsyncErrors(async (req, res, next) => {
+  try {
+    res.clearCookie("token", null, {
       expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-    httpOnly: true,
-    sameSite: "lax",
-    secure: false,
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
     })
 
     res.status(200).json({
-      success : true , 
-      message : "Logged Out"
+      success: true,
+      message: "Logged Out"
     })
   }
-   catch (error) {
+  catch (error) {
     return next(new ErrorHandler(error.message, 500));
   }
 }))

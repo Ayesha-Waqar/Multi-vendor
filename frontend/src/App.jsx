@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   Login,
   SignUp,
-  Activation,
   Home,
   ProductDetails,
   Products,
@@ -16,7 +15,9 @@ import {
   OrderDetailsPage,
   TrackOrderPage,
   UserInbox,
-  ShopCreatePage
+  ShopCreatePage,
+  UserActivation,
+  SellerActivation
 } from './routes/Routes'
 import CheckOut from "./pages/CheckOut.jsx"
 import PaymentPage from "./pages/PaymentPage.jsx";
@@ -48,7 +49,7 @@ const App = () => {
       <Routes>
         <Route path="/Login" element={<Login />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/activation/:token" element={<Activation />} />
+        <Route path="/user-activation/:token" element={<UserActivation />} />
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/best-selling" element={<BestSelling />} />
@@ -119,6 +120,8 @@ const App = () => {
 
         {/* Shop Routes  */}
         <Route path="/create-shop" element={<ShopCreatePage />} />
+        <Route path="/shop-activation/:token" element={< SellerActivation/>} />
+
       </Routes>
     </>
   )

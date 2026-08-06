@@ -42,7 +42,6 @@ app.get("/" , (req,res)=>{
 
 
 
-
 //import paths
 app.use("/api/v2/user" , userRouter)
 app.use("/api/v2/shop" , shopRouter)

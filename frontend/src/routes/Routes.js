@@ -1,6 +1,7 @@
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
-import Activation from "../pages/Activation.jsx"
+import UserActivation from "../pages/UserActivation.jsx"
+import SellerActivation from "../pages/SellerActivation.jsx"
 import Home from "../pages/Home.jsx";
 import ProductDetails from "../pages/ProductDetails.jsx";
 import Products from "../pages/Products.jsx"
@@ -14,7 +15,7 @@ import ShopCreatePage from "../pages/ShopCreatePage.jsx"
 export {
     Login ,
     SignUp,
-    Activation,
+    UserActivation,
     Home ,
     ProductDetails,
     Products,
@@ -24,5 +25,6 @@ export {
     OrderDetailsPage,
     TrackOrderPage,
     UserInbox,
-    ShopCreatePage
+    ShopCreatePage,
+    SellerActivation
 }

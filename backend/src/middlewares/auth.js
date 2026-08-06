@@ -3,26 +3,26 @@ const catchAsyncErrors = require("../middlewares/catchAsyncError")
 
 const jwt = require("jsonwebtoken");
 const User = require("../model/userModel.js");
-const Shop = require("../model/shop.js");
+const Shop = require("../model/shopModel.js");
 
 exports.isAuthenticated = catchAsyncErrors(async (req, res, next) => {
-   console.log("URL:", req.originalUrl);
-  console.log("Cookies:", req.cookies);
+  //  console.log("URL:", req.originalUrl);
+  // console.log("Cookies:", req.cookies);
   // console.log("Cookies:", req.cookies);
 
   const { token } = req.cookies;
 
-  console.log("Token:", token);
+  // console.log("Token:", token);
 
   if (!token) {
     return next(new ErrorHandler("please login to continue", 401));
   }
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  console.log("Decoded:", decoded);
+  // console.log("Decoded:", decoded);
 
   req.user = await User.findById(decoded.id);
-  console.log("User:", req.user);
+  // console.log("User:", req.user);
 
   next();
 });
