@@ -26,3 +26,29 @@ export const loadUser = ()=>async(dispatch)=>{
         })
     }
 }
+
+//==============load seller==========
+export const loadSeller = ()=>async(dispatch)=>{
+    //   console.log("loadUser called");
+    try{
+        dispatch({
+           type :"LoadSellerRequest",
+        })
+        const {data}=await axios.get(`${server}/shop/get-seller` , {withCredentials:true});
+        // console.log("user login" , data)
+        dispatch ({
+            type:"LoadSellerSuccess",
+            payload : data.seller , 
+        })
+        
+    }
+    catch(err){
+        //  console.log(err);
+//   console.log(err.response);
+
+        dispatch({
+            type : "LoadSellerFail" , 
+            payload : err.response.data.message
+        })
+    }
+}

@@ -5,14 +5,14 @@ import { useNavigate } from 'react-router-dom';
 
 
 const ShopLoginPage = () => {
-  // const {isAuthenticated} = useSelector((state)=>state.user)
-  // const navigate = useNavigate()
+  const {isSeller , seller} = useSelector((state)=>state.seller)
+  const navigate = useNavigate()
 
-  // useEffect(()=>{
-  //   if(isAuthenticated){
-  //     navigate("/")
-  //   }
-  // },[])
+  useEffect(()=>{
+    if(isSeller){
+      navigate(`/shop/${seller._id}`)
+    }
+  },[])
   return (
     <div>
       <ShopLogin />

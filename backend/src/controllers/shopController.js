@@ -6,11 +6,12 @@ const PendingShop = require("../model/pendingShopModel");
 
 const ErrorHandler = require("../utils/ErrorHandler");
 const sendMail = require("../utils/sendMail");
-const sendToken = require("../utils/jwtToken");
+const sendShopToken = require("../utils/ShopToken")
 const catchAsyncErrors = require("../middlewares/catchAsyncError")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { cloudinary } = require("../config/cloudinary");
+const { isSeller } = require("../middlewares/auth");
 
 // ================= REGISTER =================
 
@@ -113,8 +114,7 @@ shopRouter.post("/shop-activation/:token", async (req, res, next) => {
     const pendingShop = await PendingShop.findById(decoded.id);
 
     if (!pendingShop) {
-      return next(
-        new ErrorHandler("Activation link is invalid or expired", 400)
+      return next(new ErrorHandler("Activation link is invalid or expired", 400)
       );
     }
 
@@ -153,7 +153,7 @@ shopRouter.post("/shop-activation/:token", async (req, res, next) => {
     await pendingShop.deleteOne();
 
     // Login seller
-    sendToken(createdShop, 201, res);
+    sendShopToken(createdShop, 201, res);
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
   }
@@ -187,14 +187,59 @@ shopRouter.post(
     );
 
     if (!isPassValid) {
-      return next(
-        new ErrorHandler("Please provide correct information", 400)
+      return next(new ErrorHandler("Please provide correct information", 400)
       );
     }
 
-    sendToken(shopExists, 200, res);
+    sendShopToken(shopExists, 200, res);
   })
 );
+
+// ====================== LOAD SELLER ======================
+shopRouter.get(
+  "/get-seller",
+  isSeller,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const seller = await Shop.findById(req.seller.id);
+
+      if (!seller) {
+        return next(new ErrorHandler("Seller doesn't exist", 400));
+      }
+
+      res.status(200).json({
+        success: true,
+        seller,
+        message: "Seller loaded successfully",
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
+
+//======================LOGOUT SELLER=============
+shopRouter.get("/logout", isSeller, catchAsyncErrors(async (req, res, next) => {
+  try {
+    res.clearCookie("token", null, {
+      expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+    })
+
+    res.status(200).json({
+      success: true,
+      message: "Logged Out"
+    })
+  }
+  catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+}))
+
+
 
 
 module.exports = shopRouter;

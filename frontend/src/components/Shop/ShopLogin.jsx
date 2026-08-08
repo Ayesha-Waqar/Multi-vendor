@@ -30,7 +30,7 @@ const ShopLogin = () => {
             // await dispatch(loadUser());
 
             toast.success("User logged in successfully");
-            navigate("/");
+            navigate("");
             window.location.reload(true)
         } catch (err) {
             console.log("login")

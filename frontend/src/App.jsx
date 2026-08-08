@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 import "react-toastify/dist/ReactToastify.css";
@@ -28,22 +28,30 @@ import { useEffect } from "react";
 import "./app.css"
 import { server } from './server';
 import Store from './redux/store'
-import { loadUser } from './redux/actions/user'
+import { loadUser  , loadSeller } from './redux/actions/user'
+// import {loadSeller} from "./redux/actions/user.js"
 import ScrollToTop from './components/ScrollToTop'
 import Events from './components/Events/Events'
 import { useSelector } from 'react-redux'
 import ProtectedRoute from './ProtectedRoute'
+import {ShopHomePage } from "./ShopRoutes.js"
+import SellerProtectedRoute from './SellerProtectedRoute.jsx';
 
 
 const App = () => {
+   const navigate = useNavigate()
   const { loading, isAuthenticated } = useSelector((state) => state.user)
+  const {  isLoading , isSeller, seller } = useSelector((state) => state.seller)
+
 
   useEffect(() => {
-    console.log("App mounted");
+    // console.log("App mounted");
     Store.dispatch(loadUser());
+    Store.dispatch(loadSeller())
   }, []);
+  // console.log(isSeller , seller)
 
-  return loading ? null : (
+  return loading || isLoading ? null : (
     <>
       <Toaster />
       <ScrollToTop />
@@ -123,6 +131,12 @@ const App = () => {
         <Route path="/create-shop" element={<ShopCreatePage />} />
         <Route path="/shop-login" element={<ShopLoginPage />} />
         <Route path="/shop-activation/:token" element={< SellerActivation/>} />
+        <Route path="/shop/:id" element={
+          <SellerProtectedRoute>
+            <ShopHomePage/>
+          </SellerProtectedRoute>
+        } />
+        
 
       </Routes>
     </>

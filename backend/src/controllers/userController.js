@@ -184,7 +184,7 @@ userRouter.post(
 );
 
 //======================LOAD USER=============
-userRouter.get("/get-user", isAuthenticated, catchAsyncErrors(async (req, res) => {
+userRouter.get("/get-user", isAuthenticated, catchAsyncErrors(async (req, res , next) => {
   try {
     const user = await User.findById(req.user.id)
     if (!user) {
