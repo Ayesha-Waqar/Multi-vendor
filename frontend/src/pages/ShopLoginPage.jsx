@@ -5,14 +5,14 @@ import { useNavigate } from 'react-router-dom';
 
 
 const ShopLoginPage = () => {
-  const {isSeller , seller} = useSelector((state)=>state.seller)
+  const { isLoading ,isSeller , seller} = useSelector((state)=>state.seller)
   const navigate = useNavigate()
 
   useEffect(()=>{
     if(isSeller){
-      navigate(`/shop/${seller._id}`)
+      navigate("/dashboard")
     }
-  },[])
+  },[isSeller , isLoading])
   return (
     <div>
       <ShopLogin />

@@ -28,20 +28,20 @@ import { useEffect } from "react";
 import "./app.css"
 import { server } from './server';
 import Store from './redux/store'
-import { loadUser  , loadSeller } from './redux/actions/user'
+import { loadUser, loadSeller } from './redux/actions/user'
 // import {loadSeller} from "./redux/actions/user.js"
 import ScrollToTop from './components/ScrollToTop'
 import Events from './components/Events/Events'
 import { useSelector } from 'react-redux'
-import ProtectedRoute from './ProtectedRoute'
-import {ShopHomePage } from "./ShopRoutes.js"
-import SellerProtectedRoute from './SellerProtectedRoute.jsx';
+import ProtectedRoute from './protectedRoutes/ProtectedRoute'
+import { ShopHomePage, ShopDashboardPage } from "./routes/ShopRoutes.js"
+import SellerProtectedRoute from './protectedRoutes/SellerProtectedRoute.jsx';
 
 
 const App = () => {
-   const navigate = useNavigate()
+  const navigate = useNavigate()
   const { loading, isAuthenticated } = useSelector((state) => state.user)
-  const {  isLoading , isSeller, seller } = useSelector((state) => state.seller)
+  const { isLoading, isSeller, seller } = useSelector((state) => state.seller)
 
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const App = () => {
   }, []);
   // console.log(isSeller , seller)
 
-  return loading || isLoading ? null : (
+  return (
     <>
       <Toaster />
       <ScrollToTop />
@@ -130,17 +130,25 @@ const App = () => {
         {/* Shop Routes  */}
         <Route path="/create-shop" element={<ShopCreatePage />} />
         <Route path="/shop-login" element={<ShopLoginPage />} />
-        <Route path="/shop-activation/:token" element={< SellerActivation/>} />
+        <Route path="/shop-activation/:token" element={< SellerActivation />} />
         <Route path="/shop/:id" element={
           <SellerProtectedRoute>
-            <ShopHomePage/>
+            <ShopHomePage />
           </SellerProtectedRoute>
         } />
-        
+        <Route
+          path="/dashboard"
+          element={
+            <SellerProtectedRoute>
+              <ShopDashboardPage />
+            </SellerProtectedRoute>
+          }
+        />
+
 
       </Routes>
-    </>
-  )
+    </>)
+
 }
 
 export default App

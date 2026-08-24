@@ -116,7 +116,7 @@ const Header = ({ activeHeading }) => {
           {/* Seller Button + Login/Profile (mobile) + Mobile Menu Toggle */}
           <div className="ml-auto md:ml-0 shrink-0 flex items-center gap-2">
             <Link
-              to="/create-shop"
+              to="/dashboard"
               className="flex items-center gap-1.5 sm:gap-2 rounded-full bg-brand border-2 border-ink px-3 sm:px-4 py-2 text-ink font-semibold hover:bg-brand-dark transition text-sm sm:text-base whitespace-nowrap"
             >
               <span className="font-medium">Become Seller</span>

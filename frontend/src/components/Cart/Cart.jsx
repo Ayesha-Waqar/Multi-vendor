@@ -145,6 +145,8 @@ const Cart = ({ setOpenCart }) => {
 export default Cart;
 
 const SingleCart = ({ item, cartItems, setCartItems }) => {
+  
+  // increase item quantity 
   const increaseQuantity = () => {
     setCartItems(
       cartItems.map((cartItem) =>
@@ -155,6 +157,7 @@ const SingleCart = ({ item, cartItems, setCartItems }) => {
     );
   };
 
+   // decrease item quantity 
   const decreaseQuantity = () => {
     if (item.quantity === 1) {
       // Remove item completely
