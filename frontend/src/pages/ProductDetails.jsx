@@ -201,8 +201,8 @@ const ProductInfoTabs = ({ product, relatedCount }) => {
               </p>
             </div>
 
-            <Link
-              to={`/shop/${product.shop?._id || ""}`}
+            
+             <Link to={`/shop/${product.id}`}
               className="inline-block text-center bg-gray-900 hover:bg-black text-white text-xs sm:text-sm font-semibold px-5 py-2 rounded-full shadow-sm transition-all"
             >
               Visit Shop

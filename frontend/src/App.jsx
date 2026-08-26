@@ -131,11 +131,14 @@ const App = () => {
         <Route path="/create-shop" element={<ShopCreatePage />} />
         <Route path="/shop-login" element={<ShopLoginPage />} />
         <Route path="/shop-activation/:token" element={< SellerActivation />} />
-        <Route path="/shop/:id" element={
+        {/* <Route path="/shop/:id" element={
           <SellerProtectedRoute>
             <ShopHomePage />
           </SellerProtectedRoute>
-        } />
+        } /> */}
+        <Route path="/shop" element={<SellerProtectedRoute> <ShopHomePage /></SellerProtectedRoute>} />
+
+        <Route path="/shop/:id" element={<ShopHomePage />} />
         <Route
           path="/dashboard"
           element={
