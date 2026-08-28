@@ -16,7 +16,8 @@ const shopController = require("./controllers/shopController")
 const errorMiddleware = require("./middlewares/error");
 const userRouter = require("./controllers/userController")
 const shopRouter = require("./controllers/shopController")
-const cors = require("cors")
+const cors = require("cors");
+const productRouter = require("./controllers/productController");
 
 
 const app= express()
@@ -45,6 +46,7 @@ app.get("/" , (req,res)=>{
 //import paths
 app.use("/api/v2/user" , userRouter)
 app.use("/api/v2/shop" , shopRouter)
+app.use("/api/v2/product" , productRouter)
 
 
 

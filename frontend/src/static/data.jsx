@@ -277,7 +277,7 @@ export const productData = [
       { public_id: "test", url: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=800&q=80&auto=format&fit=crop" },
     ],
     shop: {
-      name: "Apple inc.",
+      name: "dino",
       shop_avatar: { public_id: "test", url: "https://ui-avatars.com/api/?name=Apple+Inc&background=0D8ABC&color=fff&size=128" },
       ratings: 4.2,
     },
@@ -321,7 +321,7 @@ export const productData = [
       { public_id: "test", url: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800&q=80&auto=format&fit=crop" },
     ],
     shop: {
-      name: "Dell Store",
+      name: "dino",
       shop_avatar: { public_id: "test", url: "https://ui-avatars.com/api/?name=Dell+Store&background=007DB8&color=fff&size=128" },
       ratings: 4.0,
     },

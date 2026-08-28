@@ -1,56 +1,98 @@
 import React from 'react'
 import { useSelector } from "react-redux"
+
 const ShopInfo = ({ isOwner }) => {
 
   const { seller } = useSelector((state) => state.seller)
+console.log("selllerr" , seller)
+  const logoutHandler = () => {
+
+  }
+
   return (
-    <>
-      <div>
-        <div>
-          <div>
-            <img src={seller?.avatar} alt="" />
-          </div>
-          <h3>{seller.name}</h3>
-          <p>{seller.description}</p>
-        </div>
-        <div>
-          <h5>Address</h5>
-          <h4>
+    <div className="w-full  mx-auto bg-white rounded-2xl shadow-md border border-blue-100 overflow-hidden">
+      {/* Header */}
+      <div className="bg-gradient-to-br from-pink-100 to-blue-100 px-6 pt-8 pb-6 flex flex-col items-center text-center">
+        <img
+           src={seller?.avatar?.url}
+          alt={seller?.name}
+          className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-white shadow-sm"
+        />
+        <h3 className="mt-4 text-lg sm:text-xl font-semibold text-black">
+          {seller.name}
+        </h3>
+        <p className="mt-1 text-sm text-black/60 px-2">
+          {seller.description}
+        </p>
+      </div>
+
+      {/* Details */}
+      <div className="divide-y divide-blue-50">
+
+        <div className="px-6 py-4">
+          <h5 className="text-xs uppercase tracking-wide font-medium text-pink-500">
+            Address
+          </h5>
+          <h4 className="mt-1 text-sm sm:text-base text-black">
             {seller.address}
           </h4>
         </div>
-        <div>
-          <h5>Phone Number </h5>
-          <h4>
+
+        <div className="px-6 py-4">
+          <h5 className="text-xs uppercase tracking-wide font-medium text-pink-500">
+            Phone Number
+          </h5>
+          <h4 className="mt-1 text-sm sm:text-base text-black">
             {seller.phoneNumber}
           </h4>
         </div>
-        <div>
-          <h5>Total Products</h5>
-          <h4>
-            10 //make dynamic
-          </h4>
+
+        <div className="px-6 py-4 flex items-center justify-between gap-4">
+          <div>
+            <h5 className="text-xs uppercase tracking-wide font-medium text-blue-500">
+              Total Products
+            </h5>
+            <h4 className="mt-1 text-sm sm:text-base text-black">
+              10 {/* make dynamic */}
+            </h4>
+          </div>
+          <div className="text-right">
+            <h5 className="text-xs uppercase tracking-wide font-medium text-blue-500">
+              Shop Ratings
+            </h5>
+            <h4 className="mt-1 text-sm sm:text-base text-black">
+              4 {/* make dynamic */}
+            </h4>
+          </div>
         </div>
-        <div>
-          <h5>Shop Ratings </h5>
-          <h4>
-            4  //make dynamic
-          </h4>
-        </div>
-        <div>
-          <h5>Joined On </h5>
-          <h4>
+
+        <div className="px-6 py-4">
+          <h5 className="text-xs uppercase tracking-wide font-medium text-pink-500">
+            Joined On
+          </h5>
+          <h4 className="mt-1 text-sm sm:text-base text-black">
             {seller.createdAt.slice(0, 10)}
           </h4>
         </div>
-        {isOwner && (
-          <div>
-            
-          </div>
-        )}
       </div>
-    </>
 
+      {/* Actions */}
+      {isOwner && (
+        <div className="px-6 py-5 flex flex-col sm:flex-row gap-3 bg-black/[0.02]">
+          <button
+            className="flex-1 rounded-lg bg-pink-200 hover:bg-pink-300 text-black text-sm font-medium py-2.5 transition-colors duration-150"
+          >
+            Edit Shop
+          </button>
+          <button
+            onClick={logoutHandler}
+            className="flex-1 rounded-lg bg-black hover:bg-black/80 text-white text-sm font-medium py-2.5 transition-colors duration-150"
+          >
+            Logout Shop
+          </button>
+        </div>
+      )}
+    </div>
   )
 }
 

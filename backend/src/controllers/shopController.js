@@ -60,11 +60,11 @@ shopRouter.post("/create-shop", async (req, res, next) => {
       zipCode,
     });
 
-    console.log({
-  phoneNumber: pendingShop.phoneNumber,
-  address: pendingShop.address,
-  zipCode: pendingShop.zipCode,
-});
+//     console.log({
+//   phoneNumber: pendingShop.phoneNumber,
+//   address: pendingShop.address,
+//   zipCode: pendingShop.zipCode,
+// });
     // console.log(pendingShop)
     // Generate activation token
     const activationToken = jwt.sign(
