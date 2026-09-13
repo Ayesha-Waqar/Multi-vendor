@@ -29,19 +29,23 @@ const CreateProduct = () => {
     setImages((prev) => prev.filter((_, i) => i !== index))
   }
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error)
-      console.log(error)
-      dispatch({ type: "clearErrors" })
-    }
-    if (success) {
-      toast.success("Product created successfully")
-      dispatch({ type: "productCreateReset" })
-      navigate("/dashboard");
-      window.location.reload();
-    }
-  }, [dispatch, error, success, navigate])
+ useEffect(() => {
+  // console.log(success , error)
+  if (error) {
+    toast.error(error);
+    dispatch({ type: "clearErrors" });
+  }
+
+  if (success) {
+    // console.log(success)
+    toast.success("Product created");
+
+    setTimeout(() => {
+      dispatch({ type: "productCreateReset" });
+      navigate("/dashboard-products");
+    }, 1500);
+  }
+}, [dispatch, error, success, navigate]);
 
   // helper: File object ko base64 string mein convert karta hai
   const fileToBase64 = (file) => {
@@ -74,6 +78,7 @@ const CreateProduct = () => {
       }
 
       dispatch(createProduct(productData))
+      
     } catch (error) {
       console.log(error)
     }

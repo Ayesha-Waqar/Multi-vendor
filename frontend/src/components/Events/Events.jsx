@@ -1,27 +1,34 @@
-import React from "react";
-import { productData } from "../../static/data";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllEvents } from "../../redux/actions/event";
 import EventCard from "./EventCard";
 import Header from "../Layout/Header";
 
-const eventProducts = productData.filter((item) => item.isEvent);
-
 const Events = ({ showAll = false }) => {
-  const productsToShow = showAll ? eventProducts : eventProducts.slice(0, 1);
+  const dispatch = useDispatch();
+  const { allEvents = [], isLoading } = useSelector((state) => state.events);
+
+  useEffect(() => {
+    dispatch(getAllEvents());
+  }, [dispatch]);
+
+  const eventsToShow = showAll ? allEvents : allEvents.slice(0, 1);
 
   return (
     <>
-     {showAll ? <Header/> : null}
-    <div className="w-11/12 mx-auto py-12">
-      {/* <h1 className="text-3xl font-bold mb-8">Popular Events</h1> */}
-
-      <div className="flex flex-col gap-8">
-        {productsToShow.map((product) => (
-          <EventCard key={product.id} product={product} />
-        ))}
+      {showAll ? <Header /> : null}
+      <div className="w-11/12 mx-auto py-12">
+        {isLoading ? (
+          <p>Loading events...</p>
+        ) : (
+          <div className="flex flex-col gap-8">
+            {eventsToShow.map((event) => (
+              <EventCard key={event._id} data={event} />
+            ))}
+          </div>
+        )}
       </div>
-    </div>
     </>
-    
   );
 };
 

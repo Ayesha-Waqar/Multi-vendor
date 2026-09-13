@@ -1,14 +1,15 @@
 const express = require("express")
-const productRouter = express.Router()
-const Product = require("../model/products")
-const ErrorHandler = require("../utils/ErrorHandler");
+const catchAsyncErrors = require("../middlewares/catchAsyncError")
 const { cloudinary } = require("../config/cloudinary");
+const ErrorHandler = require("../utils/ErrorHandler");
 const { isSeller } = require("../middlewares/auth");
-const catchAsyncErrors = require("../middlewares/catchAsyncError");
 const Shop = require("../model/shopModel")
+const Event = require("../model/event")
 
-// create products 
-productRouter.post("/create-product", catchAsyncErrors(async (req, res, next) => {
+const eventRouter = express.Router()
+
+//create events
+eventRouter.post("/create-event", catchAsyncErrors(async (req, res, next) => {
     try {
         const shopId = req.body.shopId
         const shop = await Shop.findById(shopId)
@@ -38,15 +39,15 @@ productRouter.post("/create-product", catchAsyncErrors(async (req, res, next) =>
             })
         )
 
-        const productData = req.body
-        productData.images = imagesLinks
-        productData.shop = shop
+        const eventData = req.body
+        eventData.images = imagesLinks
+        eventData.shop = shop
 
-        const product = await Product.create(productData)
+        const event = await Event.create(eventData)
 
         res.status(201).json({
             success: true,
-            product,
+            event,
         })
     }
     catch (error) {
@@ -54,16 +55,17 @@ productRouter.post("/create-product", catchAsyncErrors(async (req, res, next) =>
     }
 }))
 
-//get all products 
-productRouter.get(
-  "/get-all-products",
+
+//get all events 
+eventRouter.get(
+  "/get-all-events",
   catchAsyncErrors(async (req, res, next) => {
     try {
-      const products = await Product.find().sort({ createdAt: -1 });
+      const events = await Event.find().sort({ createdAt: -1 });
 
       res.status(200).json({
         success: true,
-        products,
+        events,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
@@ -71,14 +73,14 @@ productRouter.get(
   })
 );
 
-// get shop products  (specific shop)
-productRouter.get("/get-all-shop-products/:id" , catchAsyncErrors(async(req,res,next)=>{
+// get shop events (specific shop ka )
+eventRouter.get("/get-all-shop-events/:id" , catchAsyncErrors(async(req,res,next)=>{
     try{
         const shopId= req.params.id
-        const products = await Product.find({shopId})
+        const events = await Event.find({shopId})
         res.status(200).json({
             success : true ,
-            products
+            events
         })
     }
     catch (error) {
@@ -87,19 +89,19 @@ productRouter.get("/get-all-shop-products/:id" , catchAsyncErrors(async(req,res,
 
 }))
 
-//delete any product
-productRouter.get("/delete-shop-product/:id" , isSeller ,catchAsyncErrors(async(req,res,next)=>{
+//delete any event
+eventRouter.get("/delete-shop-event/:id" , isSeller ,catchAsyncErrors(async(req,res,next)=>{
     try{
-        const productId= req.params.id
+        const eventId= req.params.id
 
-        const product = await Product.findByIdAndDelete(productId)
+        const event = await Event.findByIdAndDelete(eventId)
 
-        if(!product){
-            return next (new ErrorHandler("product not found ", 400))
+        if(!event){
+            return next (new ErrorHandler("event not found ", 400))
         }
         res.status(200).json({
             success : true ,
-            message : "Product deleted sucessfully"
+            message : "Event deleted sucessfully"
         })
     }
     catch (error) {
@@ -108,4 +110,4 @@ productRouter.get("/delete-shop-product/:id" , isSeller ,catchAsyncErrors(async(
 
 }))
 
-module.exports = productRouter
+module.exports = eventRouter

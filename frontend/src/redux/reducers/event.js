@@ -7,72 +7,74 @@ const initialState = {
 };
 
 
-export const productReducer = createReducer(initialState, (builder) => {
+export const eventReducer = createReducer(initialState, (builder) => {
   builder
 
     .addCase("clearErrors", (state) => {
       state.error = null;
     })
-    //create products
-    .addCase("productCreateRequest", (state) => {
+
+
+    //create event
+    .addCase("EventCreateRequest", (state) => {
       state.isLoading = true;
       state.success = false;
       state.error = null;
     })
-    .addCase("productCreateSuccess", (state, action) => {
+    .addCase("EventCreateSuccess", (state, action) => {
       state.isLoading = false;
       state.product = action.payload;
       state.success = true;
     })
-    .addCase("productCreateFail", (state, action) => {
+    .addCase("EventCreateFail", (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
       state.success = false;
     })
 
-    .addCase("productCreateReset", (state) => {
+    .addCase("EventCreateReset", (state) => {
       state.success = false;
     })
 
-     // get all products 
-    .addCase("GetProductsRequest", (state) => {
+    // get all events 
+    .addCase("GetEventsRequest", (state) => {
       state.isLoading = true;
     })
-    .addCase("GetProductsSuccess", (state, action) => {
+    .addCase("GetEventsSuccess", (state, action) => {
       state.isLoading = false;
       // state.success = true;
-      state.allProducts = action.payload
+      state.allEvents = action.payload
     })
 
-    .addCase("GetProductssFail", (state, action) => {
+    .addCase("GetEventsFail", (state, action) => {
       state.isLoading = false;
       state.error = action.payload
     })
 
-    //get all products of shop 
-    .addCase("getAllShopProducts", (state) => {
+     //get all events of shop 
+    .addCase("getAllShopEvents", (state) => {
       state.isLoading = true;
     })
-    .addCase("getAllShopProductsSuccess", (state, action) => {
+    .addCase("getAllShopEventsSuccess", (state, action) => {
       state.isLoading = false;
       // state.success = true;
-      state.products = action.payload
+      state.events = action.payload
     })
 
-    .addCase("getAllShopProductsFail", (state, action) => {
+    .addCase("getAllShopEventsFail", (state, action) => {
       state.isLoading = false;
       state.error = action.payload
     })
 
     //del a product from shop 
-    .addCase("deleteProductRequest", (state) => {
+    .addCase("deleteEventRequest", (state) => {
       state.isLoading = true;
     })
-    .addCase("deleteProductRequestSuccess", (state, action) => {
+    .addCase("deleteEventRequestSuccess", (state, action) => {
       state.isLoading = false;
       state.message = action.payload;
     })
-    .addCase("deleteProductRequestFalse", (state, action) => {
+    .addCase("deleteEventRequestFalse", (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     })

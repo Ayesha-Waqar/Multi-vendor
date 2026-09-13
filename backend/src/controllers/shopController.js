@@ -222,7 +222,7 @@ shopRouter.get(
 //======================LOGOUT SELLER=============
 shopRouter.get("/logout", isSeller, catchAsyncErrors(async (req, res, next) => {
   try {
-    res.clearCookie("token", null, {
+    res.clearCookie("seller_token", null, {
       expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
       httpOnly: true,
       sameSite: "lax",

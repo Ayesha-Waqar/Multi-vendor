@@ -27,6 +27,4 @@ export const sellerReducer = createReducer(initialState, (builder) => {
     .addCase("clearErrors", (state) => {
       state.error = null;
     })
-
-
 });

@@ -30,7 +30,7 @@ const ProfileContent = ({ active }) => {
 
   const handleLogout=async()=>{
     try{
-      console.log("try")
+      // console.log("try")
      const {data}=await axios.get(`${server}/user/logout` , {withCredentials : true})
      if(data.success){
        toast.success("User loggedOut in successfully");

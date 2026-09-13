@@ -1,15 +1,15 @@
 import React from 'react'
 import DashBoardHeader from '../../components/Shop/Layout/DashBoardHeader'
 import DashBoardSideBar from '../../components/Shop/Layout/DashBoardSideBar'
-import CreateProduct from "../../components/Shop/CreateProduct.jsx"
-const ShopCreateProduct = () => {
-  return (
+import ShowProducts from "../../components/Shop/Layout/ShowProducts.jsx"
+const AllShopProducts = () => {
+   return (
    <>
    <DashBoardHeader/>
    <div className="flex">
 
   <DashBoardSideBar
-    active="createProduct"
+    active="products"
   />
 
   <main
@@ -26,7 +26,7 @@ const ShopCreateProduct = () => {
     "
   >
     {/* Dashboard content */}
-     <CreateProduct/>
+     <ShowProducts/>
   </main>
 
 </div>
@@ -35,4 +35,4 @@ const ShopCreateProduct = () => {
   )
 }
 
-export default ShopCreateProduct
+export default AllShopProducts

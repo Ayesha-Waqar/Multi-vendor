@@ -1,101 +1,100 @@
 import axios from "axios";
 import { server } from "../../server";
 
-// create products 
-export const createProduct = (newForm) => async (dispatch) => {
+// create event 
+export const createEvent = (newForm) => async (dispatch) => {
     try {
-        dispatch({ type: "productCreateRequest" })
+        dispatch({ type: "EventCreateRequest" })
 
         const { data } = await axios.post(
-            `${server}/product/create-product`,
+            `${server}/event/create-event`,
             newForm, // plain JS object hai, FormData nahi
             { withCredentials: true }
         )
 
         dispatch({
-            type: "productCreateSuccess",
+            type: "EventCreateSuccess",
             // success : true , 
-            payload: data.product,
+            payload: data.event,
         })
     }
     catch (err) {
         dispatch({
-            type: "productCreateFail",
+            type: "EventCreateFail",
             payload: err.response?.data?.message || err.message,
         })
     }
 }
 
-//get  all products
-
-export const getAllProducts = (newForm) => async (dispatch) => {
+//get  all events
+export const getAllEvents = (newForm) => async (dispatch) => {
     try {
-        dispatch({ type: "GetProductsRequest" })
+        dispatch({ type: "GetEventsRequest" })
 
         const { data } = await axios.get(
-            `${server}/product/get-all-products`,
+            `${server}/event/get-all-events`,
             // { withCredentials: true }
         )
 
-        console.log("products" , data)
+        console.log("event" , data)
 
         dispatch({
-            type: "GetProductsSuccess",
+            type: "GetEventsSuccess",
             // success : true , 
-            payload: data.products,
+            payload: data.events,
         })
     }
     catch (err) {
         dispatch({
-            type: "GetProductssFail",
+            type: "GetEventsFail",
             payload: err.response?.data?.message || err.message,
         })
     }
 }
 
-
-// get all products  of a shop 
-export const getProducts = (id) => async (dispatch) => {
+// get all events  of a shop 
+export const getEvents = (id) => async (dispatch) => {
     try {
-        dispatch({ type: "getAllShopProducts" })
+        dispatch({ type: "getAllShopEvents" })
 
         const { data } = await axios.get(
-            `${server}/product/get-all-shop-products/${id}`,
+            `${server}/event/get-all-shop-events/${id}`,
         )
+  console.log("events" , data)
 
         dispatch({
-            type: "getAllShopProductsSuccess",
+            type: "getAllShopEventsSuccess",
             success : true , 
-            payload: data.products,
+            payload: data.events,
         })
     }
     catch (err) {
         dispatch({
-            type: "getAllShopProductsFail",
+            type: "getAllShopEventsFail",
             payload: err.response?.data?.message || err.message,
         })
     }
 }
 
 // delete any shop product
-export const deleteProduct = (id) => async (dispatch) => {
+export const deleteEvent = (id) => async (dispatch) => {
     try {
-        dispatch({ type: "deleteProductRequest" })
+        dispatch({ type: "deleteEventRequest" })
 
         const { data } = await axios.get(
-            `${server}/product/delete-shop-product/${id}`,
+            `${server}/event/delete-shop-event/${id}`,
             {withCredentials:true}
         )
 
         dispatch({
-            type: "deleteProductRequestSuccess",
+            type: "deleteEventRequestSuccess",
             success : true , 
             payload: data.message,
         })
     }
     catch (err) {
         dispatch({
-            type: "deleteProductRequestFalse",
+            type: "deleteEventRequestFalse",
             payload: err.response?.data?.message || err.message,
         })
     }

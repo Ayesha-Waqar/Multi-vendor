@@ -271,6 +271,7 @@ export const productData = [
     id: 1,
     category: "Computers and Laptops",
     name: "MacBook Pro M2 chipset 256GB SSD 8GB RAM space-gray with Apple 1 year warranty",
+    shopId: "6a8f17e034a19755c869f411",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80&auto=format&fit=crop" },
@@ -293,6 +294,7 @@ export const productData = [
     id: 2,
     category: "Computers and Laptops",
     name: "MacBook M3 chipset 256GB SSD 8GB RAM silver with Apple 1 year warranty",
+    shopId: "6aa1804db1019c5014459b55",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&q=80&auto=format&fit=crop" },
@@ -315,6 +317,7 @@ export const productData = [
     id: 3,
     category: "Computers and Laptops",
     name: "Dell XPS 15 Intel i7 16GB RAM 512GB SSD with 1 year warranty",
+    shopId: "6a8f17e034a19755c869f411",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=800&q=80&auto=format&fit=crop" },
@@ -339,6 +342,7 @@ export const productData = [
     id: 4,
     category: "cosmetics and body care",
     name: "Organic Face Moisturizer with Vitamin C and Aloe Vera 100ml",
+    shopId: "6aa1804eb1019c5014459b56",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=800&q=80&auto=format&fit=crop" },
@@ -361,6 +365,7 @@ export const productData = [
     id: 5,
     category: "cosmetics and body care",
     name: "Matte Lipstick Set - 6 Long Lasting Shades",
+    shopId: "6aa1804eb1019c5014459b56",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=800&q=80&auto=format&fit=crop" },
@@ -383,6 +388,7 @@ export const productData = [
     id: 6,
     category: "cosmetics and body care",
     name: "Shea Butter Body Lotion for Dry Skin 400ml",
+    shopId: "6aa1804eb1019c5014459b57",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&q=80&auto=format&fit=crop" },
@@ -407,6 +413,7 @@ export const productData = [
     id: 7,
     category: "Accesories",
     name: "Leather Wallet for Men - Slim Bifold with RFID Blocking",
+    shopId: "6aa1804fb1019c5014459b58",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80&auto=format&fit=crop" },
@@ -429,6 +436,7 @@ export const productData = [
     id: 8,
     category: "Accesories",
     name: "Polarized Aviator Sunglasses UV400 Protection",
+    shopId: "6aa1804fb1019c5014459b58",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&q=80&auto=format&fit=crop" },
@@ -451,6 +459,7 @@ export const productData = [
     id: 9,
     category: "Accesories",
     name: "Stainless Steel Chronograph Wrist Watch for Men",
+    shopId: "6aa1804fb1019c5014459b59",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&q=80&auto=format&fit=crop" },
@@ -475,6 +484,7 @@ export const productData = [
     id: 10,
     category: "Cloths",
     name: "Men's Slim Fit Cotton Casual Shirt - Long Sleeve",
+    shopId: "6aa1804fb1019c5014459b5a",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=800&q=80&auto=format&fit=crop" },
@@ -497,6 +507,7 @@ export const productData = [
     id: 11,
     category: "Cloths",
     name: "Women's Floral Summer Dress - Lightweight Cotton",
+    shopId: "6aa1804fb1019c5014459b5a",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80&auto=format&fit=crop" },
@@ -519,6 +530,7 @@ export const productData = [
     id: 12,
     category: "Cloths",
     name: "Unisex Denim Jacket - Classic Blue Wash",
+    shopId: "6aa18050b1019c5014459b5b",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1601333144130-8cbb312386b6?w=800&q=80&auto=format&fit=crop" },
@@ -543,6 +555,7 @@ export const productData = [
     id: 13,
     category: "Shoes",
     name: "New Trend Shoes for Gents - All Sizes Available",
+    shopId: "6aa18050b1019c5014459b5c",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80&auto=format&fit=crop" },
@@ -565,6 +578,7 @@ export const productData = [
     id: 14,
     category: "Shoes",
     name: "Women's Running Sneakers - Lightweight Breathable Mesh",
+    shopId: "6aa18050b1019c5014459b5c",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&q=80&auto=format&fit=crop" },
@@ -587,6 +601,7 @@ export const productData = [
     id: 15,
     category: "Shoes",
     name: "Classic Leather Formal Shoes for Men - Black",
+    shopId: "6aa18050b1019c5014459b5d",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1614252369475-531eba835eb1?w=800&q=80&auto=format&fit=crop" },
@@ -611,6 +626,7 @@ export const productData = [
     id: 16,
     category: "Gifts",
     name: "Personalized Photo Frame Gift Set for Couples",
+    shopId: "6aa18051b1019c5014459b5e",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=800&q=80&auto=format&fit=crop" },
@@ -633,6 +649,7 @@ export const productData = [
     id: 17,
     category: "Gifts",
     name: "Scented Candle Gift Box - Set of 4 Aromas",
+    shopId: "6aa18051b1019c5014459b5e",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://i.pinimg.com/vwebp/1200x/5b/90/ba/5b90ba662309ce526b0fb13bea778d7f.webp" },
@@ -655,6 +672,7 @@ export const productData = [
     id: 18,
     category: "Gifts",
     name: "Luxury Gift Hamper - Chocolates, Candles and Card",
+    shopId: "6aa18051b1019c5014459b5f",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://i.pinimg.com/1200x/60/11/d1/6011d1b3104b7f0a4d6ebefa79c9333e.jpg" },
@@ -679,6 +697,7 @@ export const productData = [
     id: 19,
     category: "Pet Care",
     name: "Premium Dry Dog Food - Chicken and Rice 5kg",
+    shopId: "6aa18051b1019c5014459b60",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=800&q=80&auto=format&fit=crop" },
@@ -701,6 +720,7 @@ export const productData = [
     id: 20,
     category: "Pet Care",
     name: "Cat Scratching Post Tower with Hammock",
+    shopId: "6aa18051b1019c5014459b60",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&q=80&auto=format&fit=crop" },
@@ -723,6 +743,7 @@ export const productData = [
     id: 21,
     category: "Pet Care",
     name: "Adjustable Nylon Dog Leash and Collar Set",
+    shopId: "6aa18052b1019c5014459b61",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://i.pinimg.com/vwebp/1200x/a5/de/f9/a5def92e929df666a3cc055a781d4bc2.webp" },
@@ -747,6 +768,7 @@ export const productData = [
     id: 22,
     category: "Mobile and Tablets",
     name: "iPhone 14 Pro Max 256GB SSD 8GB RAM Silver",
+    shopId: "6aa18052b1019c5014459b62",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://i.pinimg.com/vwebp/736x/ad/c1/d5/adc1d530b550ba34817d2ed11137159f.webp" },
@@ -769,6 +791,7 @@ export const productData = [
     id: 23,
     category: "Mobile and Tablets",
     name: "Samsung Galaxy S23 Ultra 512GB 12GB RAM Black",
+    shopId: "6aa18052b1019c5014459b63",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800&q=80&auto=format&fit=crop" },
@@ -791,6 +814,7 @@ export const productData = [
     id: 24,
     category: "Mobile and Tablets",
     name: "iPad Air 10.9-inch 64GB Wi-Fi Space Gray",
+    shopId: "6aa1804db1019c5014459b55",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800&q=80&auto=format&fit=crop" },
@@ -815,6 +839,7 @@ export const productData = [
     id: 25,
     category: "Music and Gaming",
     name: "Gaming Headphone Asus with Multiple Colors and Free Delivery",
+    shopId: "6aa18053b1019c5014459b64",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1599669454699-248893623440?w=800&q=80&auto=format&fit=crop" },
@@ -838,6 +863,7 @@ export const productData = [
     id: 26,
     category: "Music and Gaming",
     name: "Wireless Gaming Controller - Bluetooth Compatible with PC and Console",
+    shopId: "6aa18053b1019c5014459b65",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1592840062661-a5a7f78e2056?w=800&q=80&auto=format&fit=crop" },
@@ -860,6 +886,7 @@ export const productData = [
     id: 27,
     category: "Music and Gaming",
     name: "Studio Monitor Speakers Pair - Bluetooth and AUX",
+    shopId: "6aa18053b1019c5014459b66",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=800&q=80&auto=format&fit=crop" },
@@ -884,6 +911,7 @@ export const productData = [
     id: 28,
     category: "Others",
     name: "New Fashionable Watch for Men 2026 with Multiple Colors",
+    shopId: "6aa1804fb1019c5014459b59",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&q=80&auto=format&fit=crop" },
@@ -906,6 +934,7 @@ export const productData = [
     id: 29,
     category: "Others",
     name: "Reusable Stainless Steel Water Bottle 1L - Insulated",
+    shopId: "6aa18054b1019c5014459b67",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=800&q=80&auto=format&fit=crop" },
@@ -928,6 +957,7 @@ export const productData = [
     id: 30,
     category: "Others",
     name: "Portable LED Desk Lamp with USB Charging Port",
+    shopId: "6aa18054b1019c5014459b68",
     description: desc,
     image_Url: [
       { public_id: "test", url: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&q=80&auto=format&fit=crop" },

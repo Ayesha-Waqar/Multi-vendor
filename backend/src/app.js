@@ -18,6 +18,7 @@ const userRouter = require("./controllers/userController")
 const shopRouter = require("./controllers/shopController")
 const cors = require("cors");
 const productRouter = require("./controllers/productController");
+const eventRouter = require("./controllers/eventController");
 
 
 const app= express()
@@ -47,6 +48,7 @@ app.get("/" , (req,res)=>{
 app.use("/api/v2/user" , userRouter)
 app.use("/api/v2/shop" , shopRouter)
 app.use("/api/v2/product" , productRouter)
+app.use("/api/v2/event" , eventRouter)
 
 
 

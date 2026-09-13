@@ -2,43 +2,51 @@ import React from "react";
 import { Link } from "react-router-dom";
 import CountDown from "./CountDown";
 
-const EventCard = ({ product }) => {
-  if (!product) return null;
+const EventCard = ({ data }) => {
+  if (!data) return null;
+
+  const imageUrl = data.images?.[0]?.url || data.image_Url?.[0]?.url || (typeof data.image_Url === "string" ? data.image_Url : "");
+  const eventName = data.name || "Event";
+  const productSlug = encodeURIComponent(eventName.replace(/\s+/g, "-"));
 
   return (
     <div className="w-full bg-white rounded-xl shadow-md p-6 md:p-8">
       <div className="flex flex-col lg:flex-row items-center gap-10">
         {/* Image */}
         <div className="flex-1 flex justify-center">
-          <img
-            src={product.image_Url[0].url}
-            alt={product.name}
-            className="w-[320px] h-[320px] object-contain"
-          />
+          <Link to={`/product/${productSlug}`}>
+            <img
+              src={imageUrl}
+              alt={eventName}
+              className="w-[320px] h-[320px] object-contain cursor-pointer hover:scale-105 transition-transform duration-300"
+            />
+          </Link>
         </div>
 
         {/* Content */}
         <div className="flex-1 w-full">
-          <h2 className="text-3xl font-bold text-gray-800">
-            {product.name}
-          </h2>
+          <Link to={`/product/${productSlug}`}>
+            <h2 className="text-3xl font-bold text-gray-800 hover:text-pink-500 transition-colors">
+              {data.name}
+            </h2>
+          </Link>
 
           <p className="text-gray-600 mt-4 leading-7">
-            {product.description}
+            {data.description}
           </p>
 
           {/* Price */}
           <div className="flex flex-wrap items-center gap-4 mt-5">
             <span className="text-red-400 line-through text-xl">
-              ${product.price}
+              ${data.originalPrice || data.price}
             </span>
 
             <span className="text-3xl font-bold text-gray-900">
-              ${product.discount_price}
+              ${data.discountPrice || data.discount_price}
             </span>
 
             <span className="ml-auto text-green-500 font-semibold">
-              {product.total_sell} Sold
+              {data.sold_out || data.total_sell || 0} Sold
             </span>
           </div>
 
@@ -48,7 +56,7 @@ const EventCard = ({ product }) => {
               Offer Ends In
             </p>
 
-            <CountDown product={product} />
+            <CountDown data={data} />
           </div>
 
           {/* Buttons */}
@@ -57,7 +65,8 @@ const EventCard = ({ product }) => {
               Add To Cart
             </button>
 
-            <Link to={`/product/${product.name.replace(/\s+/g, "-")}`}
+            <Link
+              to={`/product/${productSlug}`}
               className="px-7 py-3 rounded-lg border border-pink-400 text-pink-500 font-semibold hover:bg-pink-400 hover:text-white transition-all duration-300"
             >
               See Details

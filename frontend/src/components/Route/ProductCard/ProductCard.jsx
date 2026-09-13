@@ -9,22 +9,24 @@ import {
   AiOutlineStar,
 } from "react-icons/ai"
 
-
 const ProductCard = ({ data, addToCartHandler }) => {
   const [wishlisted, setWishlisted] = useState(false)
 
+  const productName = data?.name || "Product"
+  const productSlug = productName.replace(/\s+/g, "-")
 
-  const productSlug = data.name.replace(/\s+/g, "-")
-
-  // price + discount math done once, defensively
+  const originalPrice = Number(data?.originalPrice ?? data?.original_price ?? data?.price ?? 0)
+  const discountPrice = Number(data?.discountPrice ?? data?.discount_price ?? 0)
+  const basePrice = Number(data?.price ?? originalPrice ?? 0)
   const hasDiscount =
-    typeof data.discount_price === "number" && data.discount_price < data.price
-  const displayPrice = hasDiscount ? data.discount_price : data.price
-  const discountPercent = hasDiscount
-    ? Math.round(((data.price - data.discount_price) / data.price) * 100)
-    : 0
+    Number.isFinite(discountPrice) && discountPrice > 0 && discountPrice < originalPrice
+  const displayPrice = hasDiscount ? discountPrice : originalPrice || basePrice
+  const discountPercent =
+    hasDiscount && originalPrice > 0
+      ? Math.round(((basePrice - discountPrice) / originalPrice) * 100)
+      : 0
 
-  const rating = Math.round(data.ratings || 0)
+  const rating = Math.round(data?.ratings || 0)
 
   return (
     <div className="group relative w-full max-w-[300px] mx-auto bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
@@ -32,8 +34,8 @@ const ProductCard = ({ data, addToCartHandler }) => {
       <Link to={`/product/${productSlug}`} className="block relative">
         <div className="aspect-square w-full overflow-hidden rounded-t-xl bg-gray-50">
           <img
-            src={data.image_Url[0].url}
-            alt={data.name}
+            src={data?.images?.[0]?.url}
+            alt={productName}
             loading="lazy"
             className="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-105"
           />
@@ -62,17 +64,15 @@ const ProductCard = ({ data, addToCartHandler }) => {
             )}
           </IconButton>
 
-          <Link to={`/product/${productSlug}`}>
-            <IconButton label="Quick view">
-              <AiOutlineEye size={16} className="text-gray-700" />
-            </IconButton>
-          </Link>
+          <IconButton label="Quick view" to={`/product/${productSlug}`}>
+            <AiOutlineEye size={16} className="text-gray-700" />
+          </IconButton>
 
           <IconButton
             label="Add to cart"
             onClick={(e) => {
               e.preventDefault()
-              addToCartHandler ? addToCartHandler(data) : setOpen(true)
+              addToCartHandler?.(data)
             }}
           >
             <AiOutlineShoppingCart size={16} className="text-gray-700" />
@@ -84,16 +84,16 @@ const ProductCard = ({ data, addToCartHandler }) => {
       <div className="p-3 sm:p-4">
         <Link to="/" className="block w-fit">
           <h5 className="text-xs text-gray-500 hover:text-brand-text hover:underline truncate">
-            {data.shop.name}
+            {data?.shop?.name}
           </h5>
         </Link>
 
-        <Link to={`/product/${productSlug}`} className=" block">
+        <Link to={`/product/${productSlug}`} className="block">
           <h4
-            title={data.name}
+            title={productName}
             className="mt-1 text-sm sm:text-base font-medium text-gray-800 leading-snug line-clamp-2 min-h-[2.5rem]"
           >
-            {data.name}
+            {productName}
           </h4>
 
           {/* Rating */}
@@ -101,10 +101,8 @@ const ProductCard = ({ data, addToCartHandler }) => {
             {Array.from({ length: 5 }).map((_, i) =>
               i < rating ? <AiFillStar key={i} /> : <AiOutlineStar key={i} />
             )}
-            {data.reviews?.length ? (
-              <span className="ml-1 text-xs text-gray-400">
-                ({data.reviews.length})
-              </span>
+            {data?.reviews?.length ? (
+              <span className="ml-1 text-xs text-gray-400">({data.reviews.length})</span>
             ) : null}
           </div>
 
@@ -116,12 +114,12 @@ const ProductCard = ({ data, addToCartHandler }) => {
               </span>
               {hasDiscount && (
                 <span className="text-xs sm:text-sm text-gray-400 line-through">
-                  ${data.price}
+                  ${basePrice}
                 </span>
               )}
             </div>
             <span className="text-xs text-gray-500 whitespace-nowrap">
-              {data.total_sell || 0} sold
+              {data?.total_sell || 0} sold
             </span>
           </div>
         </Link>
@@ -139,14 +137,11 @@ const ProductCard = ({ data, addToCartHandler }) => {
               <AiOutlineHeart size={18} className="text-gray-600" />
             )}
           </button>
-          <Link
-            to={`/product/${productSlug}`}
-            className="p-2 -m-2"
-          >
+          <Link to={`/product/${productSlug}`} className="p-2 -m-2">
             <AiOutlineEye size={18} className="text-gray-600" />
           </Link>
           <button
-            onClick={() => (addToCartHandler ? addToCartHandler(data) : setOpen(true))}
+            onClick={() => addToCartHandler?.(data)}
             aria-label="Add to cart"
             className="p-2 -m-2"
           >
@@ -154,21 +149,33 @@ const ProductCard = ({ data, addToCartHandler }) => {
           </button>
         </div>
       </div>
-
     </div>
   )
 }
 
-const IconButton = ({ children, onClick, label, active }) => (
-  <button
-    onClick={onClick}
-    aria-label={label}
-    title={label}
-    className={`w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors ${active ? "ring-1 ring-red-200" : ""
-      }`}
-  >
-    {children}
-  </button>
-)
+const IconButton = ({ children, onClick, label, active, to }) => {
+  const className = `w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors ${
+    active ? "ring-1 ring-red-200" : ""
+  }`
+
+  if (to) {
+    return (
+      <Link to={to} className={className} aria-label={label} title={label}>
+        {children}
+      </Link>
+    )
+  }
+
+  return (
+    <button
+      onClick={onClick}
+      aria-label={label}
+      title={label}
+      className={className}
+    >
+      {children}
+    </button>
+  )
+}
 
 export default ProductCard

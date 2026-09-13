@@ -34,7 +34,7 @@ import ScrollToTop from './components/ScrollToTop'
 import Events from './components/Events/Events'
 import { useSelector } from 'react-redux'
 import ProtectedRoute from './protectedRoutes/ProtectedRoute'
-import { ShopHomePage, ShopDashboardPage , ShopCreateProduct } from "./routes/ShopRoutes.js"
+import { ShopHomePage, ShopDashboardPage , ShopCreateProduct , AllShopProducts  , CreateShopEvent , AllShopEvents} from "./routes/ShopRoutes.js"
 import SellerProtectedRoute from './protectedRoutes/SellerProtectedRoute.jsx';
 
 
@@ -152,6 +152,30 @@ const App = () => {
           element={
             <SellerProtectedRoute>
               <ShopCreateProduct />
+            </SellerProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard-products"
+          element={
+            <SellerProtectedRoute>
+              <AllShopProducts />
+            </SellerProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard-createEvent"
+          element={
+            <SellerProtectedRoute>
+              <CreateShopEvent />
+            </SellerProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard-events"
+          element={
+            <SellerProtectedRoute>
+              <AllShopEvents />
             </SellerProtectedRoute>
           }
         />

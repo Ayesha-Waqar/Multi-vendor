@@ -1,5 +1,8 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllEvents } from "../redux/actions/event";
+import { getAllProducts } from "../redux/actions/product";
 import {
   AiFillStar,
   AiOutlineStar,
@@ -8,7 +11,7 @@ import {
   AiOutlineShoppingCart,
   AiOutlineMessage,
 } from "react-icons/ai";
-import { productData } from "../static/data";
+
 import ProductCard from "../components/Route/ProductCard/ProductCard";
 import Header from "../components/Layout/Header";
 
@@ -47,6 +50,14 @@ const ProductNotFound = () => (
     </div>
   </div>
 );
+
+const getSellerAvatarSrc = (shop) => {
+  if (!shop) return "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg";
+  const avatarObj = shop.avatar || shop.shop_avatar;
+  if (typeof avatarObj === "string") return avatarObj;
+  if (avatarObj?.url) return avatarObj.url;
+  return "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg";
+};
 
 /* ---------------- Product Details / Reviews / Seller Info Tabs ---------------- */
 const ProductInfoTabs = ({ product, relatedCount }) => {
@@ -100,11 +111,7 @@ const ProductInfoTabs = ({ product, relatedCount }) => {
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex items-center gap-2 sm:w-56 flex-shrink-0">
               <img
-                src={
-                  typeof product.shop?.shop_avatar === "string"
-                    ? product.shop.shop_avatar
-                    : product.shop?.shop_avatar?.url
-                }
+                src={getSellerAvatarSrc(product.shop)}
                 alt={product.shop?.name}
                 className="w-9 h-9 rounded-full object-cover border-2 border-blue-100 shadow-sm"
               />
@@ -115,7 +122,7 @@ const ProductInfoTabs = ({ product, relatedCount }) => {
                 <div className="flex items-center gap-1">
                   <StarRating rating={product.shop?.ratings} />
                   <span className="text-gray-400 text-xs">
-                    ({product.shop?.ratings?.toFixed(1) || "0.0"})
+                    ({(product.shop?.ratings || 0).toFixed(1)})
                   </span>
                 </div>
               </div>
@@ -159,11 +166,7 @@ const ProductInfoTabs = ({ product, relatedCount }) => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <img
-                src={
-                  typeof product.shop?.shop_avatar === "string"
-                    ? product.shop.shop_avatar
-                    : product.shop?.shop_avatar?.url
-                }
+                src={getSellerAvatarSrc(product.shop)}
                 alt={product.shop?.name}
                 className="w-11 h-11 rounded-full object-cover border-2 border-white shadow-sm"
               />
@@ -174,7 +177,7 @@ const ProductInfoTabs = ({ product, relatedCount }) => {
                 <div className="flex items-center gap-1">
                   <StarRating rating={product.shop?.ratings} />
                   <span className="text-gray-400 text-xs">
-                    ({product.shop?.ratings?.toFixed(1) || "0.0"}) Ratings
+                    ({(product.shop?.ratings || 0).toFixed(1)}) Ratings
                   </span>
                 </div>
               </div>
@@ -201,8 +204,8 @@ const ProductInfoTabs = ({ product, relatedCount }) => {
               </p>
             </div>
 
-            
-             <Link to={`/shop/${product.id}`}
+            <Link
+              to={`/shop/${product.shop?._id || product.shopId || product.id}`}
               className="inline-block text-center bg-gray-900 hover:bg-black text-white text-xs sm:text-sm font-semibold px-5 py-2 rounded-full shadow-sm transition-all"
             >
               Visit Shop
@@ -217,24 +220,69 @@ const ProductInfoTabs = ({ product, relatedCount }) => {
 
 const ProductDetails = () => {
   const { slug } = useParams();
+  const dispatch = useDispatch();
+  const { allProducts } = useSelector((state) => state.products || {});
+  const { allEvents, events } = useSelector((state) => state.events || {});
+
+  useEffect(() => {
+    if (!allProducts || allProducts.length === 0) {
+      dispatch(getAllProducts());
+    }
+  }, [dispatch, allProducts]);
+
+  useEffect(() => {
+    if (!allEvents || allEvents.length === 0) {
+      dispatch(getAllEvents());
+    }
+  }, [dispatch, allEvents]);
 
   const product = useMemo(() => {
-    const decoded = decodeURIComponent(slug);
+    const rawSlug = slug || "";
+    let decoded = rawSlug;
+    try {
+      decoded = decodeURIComponent(rawSlug).trim();
+    } catch (e) {
+      decoded = rawSlug.trim();
+    }
 
-    return productData.find((item) => {
-      const dashSlug = item.name.replace(/\s+/g, "-");
+    const eventsList = [...(allEvents || []), ...(events || [])];
+    const productsList = [...(allProducts || [])];
+
+    const matchItem = (item) => {
+      if (!item) return false;
+      const itemName = (item.name || "").trim();
+      const dashSlug = itemName.replace(/\s+/g, "-");
 
       return (
-        item.name === decoded || // Space URL
-        dashSlug === slug // Dash URL
+        itemName === decoded ||
+        dashSlug === rawSlug ||
+        dashSlug === decoded ||
+        item._id === rawSlug ||
+        item._id === decoded ||
+        itemName.toLowerCase() === decoded.toLowerCase() ||
+        dashSlug.toLowerCase() === rawSlug.toLowerCase() ||
+        dashSlug.toLowerCase() === decoded.toLowerCase()
       );
-    });
-  }, [slug]);
+    };
+
+    // 1. Search in Redux allEvents & events
+    const eventMatch = eventsList.find(matchItem);
+    if (eventMatch) return eventMatch;
+
+    // 2. Search in Redux allProducts
+    const prodMatch = productsList.find(matchItem);
+
+    if (prodMatch) return prodMatch;
+
+    return null;
+  }, [slug, allEvents, events, allProducts]);
 
   const images = product
-    ? Array.isArray(product.image_Url)
+    ? Array.isArray(product.images) && product.images.length > 0
+      ? product.images
+      : Array.isArray(product.image_Url)
       ? product.image_Url
-      : [product.image_Url]
+      : [product.images || product.image_Url].filter(Boolean)
     : [];
 
   const getImgSrc = (img) => (typeof img === "string" ? img : img?.url);
@@ -264,15 +312,16 @@ const ProductDetails = () => {
     if (quantity > 1) setQuantity((q) => q - 1);
   };
 
-  const discountPercent =
-    product.discount_price && product.price
-      ? Math.round(
-          ((product.price - product.discount_price) / product.price) * 100
-        )
-      : 0;
+  const origPrice = product.originalPrice || product.price || 0;
+  const discPrice = product.discountPrice || product.discount_price || 0;
+  const hasDiscount = discPrice > 0 && origPrice > discPrice;
 
-  const relatedProducts = productData
-    .filter((p) => p.category === product.category && p.id !== product._id)
+  const discountPercent = hasDiscount
+    ? Math.round(((origPrice - discPrice) / origPrice) * 100)
+    : 0;
+
+  const relatedProducts = (allProducts || [])
+    .filter((p) => p.category === product.category && p._id !== product._id)
     .slice(0, 4);
 
   return (
@@ -347,24 +396,24 @@ const ProductDetails = () => {
               </h1>
 
               <div className="flex items-center gap-2 text-xs">
-                <StarRating rating={product.rating} />
+                <StarRating rating={product.rating || product.ratings} />
                 <span className="text-gray-500">
-                  ({product.rating?.toFixed(1) || "0.0"})
+                  ({(product.rating || product.ratings || 0).toFixed(1)})
                 </span>
                 <span className="text-gray-400">|</span>
                 <span className="text-gray-500">
-                  {product.total_sell || 0} sold
+                  {product.sold_out || product.total_sell || 0} sold
                 </span>
               </div>
 
               <div className="flex items-end gap-2 flex-wrap">
                 <span className="text-xl font-bold text-pink-500">
-                  ${product.discount_price || product.price}
+                  ${discPrice > 0 ? discPrice : origPrice}
                 </span>
-                {product.discount_price && (
+                {hasDiscount && (
                   <>
                     <span className="text-sm text-gray-400 line-through">
-                      ${product.price}
+                      ${origPrice}
                     </span>
                     <span className="text-xs font-semibold text-emerald-500 bg-emerald-50 px-1.5 py-0.5 rounded-md">
                       -{discountPercent}%
@@ -444,11 +493,7 @@ const ProductDetails = () => {
               <div className="mt-3 bg-gradient-to-r from-pink-50 to-blue-50 rounded-xl p-3 flex items-center justify-between gap-3 flex-wrap">
                 <div className="flex items-center gap-2">
                   <img
-                    src={
-                      typeof product.shop?.shop_avatar === "string"
-                        ? product.shop.shop_avatar
-                        : product.shop?.shop_avatar?.url
-                    }
+                    src={getSellerAvatarSrc(product.shop)}
                     alt={product.shop?.name}
                     className="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm"
                   />
@@ -480,7 +525,7 @@ const ProductDetails = () => {
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 {relatedProducts.map((item) => (
-                  <ProductCard data={item} key={item.id} />
+                  <ProductCard data={item} key={item._id} />
                 ))}
               </div>
             </div>

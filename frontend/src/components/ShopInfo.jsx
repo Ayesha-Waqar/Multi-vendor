@@ -1,12 +1,30 @@
-import React from 'react'
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import toast from 'react-hot-toast';
+import axios from "axios"
+import {server} from "../server"
 
 const ShopInfo = ({ isOwner }) => {
 
+  const navigate = useNavigate();
   const { seller } = useSelector((state) => state.seller)
-console.log("selllerr" , seller)
-  const logoutHandler = () => {
+  // console.log("selllerr" , seller)
 
+  const handleLogout = async () => {
+    try {
+      // console.log("try")
+      const { data } = await axios.get(`${server}/shop/logout`, { withCredentials: true })
+      console.log("data" , data)
+      if (data.success) {
+        toast.success(data.message);
+         navigate("/");
+      // window.location.reload(true)
+      }
+     
+    } catch (err) {
+      // console.log("logout")
+      toast.error(err.response?.data?.message || "Something went wrong");
+    }
   }
 
   return (
@@ -14,7 +32,7 @@ console.log("selllerr" , seller)
       {/* Header */}
       <div className="bg-gradient-to-br from-pink-100 to-blue-100 px-6 pt-8 pb-6 flex flex-col items-center text-center">
         <img
-           src={seller?.avatar?.url}
+          src={seller?.avatar?.url}
           alt={seller?.name}
           className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-white shadow-sm"
         />
@@ -85,7 +103,7 @@ console.log("selllerr" , seller)
             Edit Shop
           </button>
           <button
-            onClick={logoutHandler}
+            onClick={handleLogout}
             className="flex-1 rounded-lg bg-black hover:bg-black/80 text-white text-sm font-medium py-2.5 transition-colors duration-150"
           >
             Logout Shop
