@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { productData } from '../../../static/data'
 import ProductCard from '../ProductCard/ProductCard'
+import { getAllProducts } from "../../../redux/actions/product.js";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const BestDeals = () => {
-  const [data, setData] = useState([])
-
+  
+   const dispatch = useDispatch();
+  const { isLoading, error, allProducts } = useSelector((state) => state.products || {});
   useEffect(() => {
-    const d = productData && [...productData].sort((a, b) => b.total_sell - a.total_sell)
-    const firstFive = d.slice(0, 5)
-    setData(firstFive)
-  }, [])
+    if (!allProducts || allProducts.length === 0) {
+      dispatch(getAllProducts());
+    }
+  }, [dispatch, allProducts]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -19,11 +23,15 @@ const BestDeals = () => {
         </h1>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-5">
-        {data &&
-          data.map((i, index) => (
-            <ProductCard data={i} key={index} />
-          ))}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 sm:gap-5">
+         {allProducts &&
+              [...allProducts]
+                .sort(
+                  (a, b) =>
+                    (b.sold_out || b.total_sell || 0) - (a.sold_out || a.total_sell || 0)
+                )
+                .slice(0, 4)
+                .map((item) => <ProductCard key={item._id} data={item} />)}
       </div>
     </div>
   )

@@ -119,7 +119,7 @@ const ProductCard = ({ data, addToCartHandler }) => {
               )}
             </div>
             <span className="text-xs text-gray-500 whitespace-nowrap">
-              {data?.total_sell || 0} sold
+              {data?.sold_out } sold
             </span>
           </div>
         </Link>

@@ -21,6 +21,7 @@ const CreateEvent = () => {
     const [stock, setStock] = useState("")
     const [startDate, setStartDate] = useState("")
     const [endDate, setEndDate] = useState("")
+    const [sold_out , setSoldOut]= useState("")
 
     const today = new Date().toISOString().split("T")[0]
 
@@ -77,6 +78,7 @@ const CreateEvent = () => {
                 originalPrice,
                 discountPrice,
                 stock,
+                sold_out,
                 startDate,
                 endDate,
                 shopId: seller._id,
@@ -201,7 +203,21 @@ const CreateEvent = () => {
                     <input
                         type="number"
                         value={stock}
-                        onChange={(e) => setStock(e.target.value)}
+                        onChange={(e) => setStock(e.target.value<0?  0: e.target.value)}
+                        placeholder="0"
+                        required
+                        className="w-full rounded-lg border border-blue-100 bg-blue-50/30 px-3.5 py-2.5 text-sm text-black placeholder:text-black/30 outline-none focus:border-pink-300 focus:bg-white transition-colors duration-150"
+                    />
+                </div>
+                {/* sold out  */}
+                 <div>
+                    <label className="block text-xs uppercase tracking-wide font-medium text-blue-500 mb-1.5">
+                        Event Sold Out  
+                    </label>
+                    <input
+                        type="number"
+                        value={sold_out}
+                        onChange={(e) => setSoldOut(e.target.value<0?  0: e.target.value)}
                         placeholder="0"
                         required
                         className="w-full rounded-lg border border-blue-100 bg-blue-50/30 px-3.5 py-2.5 text-sm text-black placeholder:text-black/30 outline-none focus:border-pink-300 focus:bg-white transition-colors duration-150"

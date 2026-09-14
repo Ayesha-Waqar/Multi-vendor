@@ -99,6 +99,17 @@ eventRouter.get("/delete-shop-event/:id" , isSeller ,catchAsyncErrors(async(req,
         if(!event){
             return next (new ErrorHandler("event not found ", 400))
         }
+
+         // Delete event images from Cloudinary
+              if (event.images && event.images.length > 0) {
+                for (const image of event.images) {
+                  if (image.public_id) {
+                    await cloudinary.uploader.destroy(image.public_id);
+                  }
+                }
+              }
+        
+
         res.status(200).json({
             success : true ,
             message : "Event deleted sucessfully"

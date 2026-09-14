@@ -19,6 +19,7 @@ const CreateProduct = () => {
   const [originalPrice, setOriginalPrice] = useState("")
   const [discountPrice, setDiscountPrice] = useState("")
   const [stock, setStock] = useState("")
+  const [sold_out, setSoldOut] = useState("")
 
   const imageChangeHandler = (e) => {
     const files = Array.from(e.target.files)
@@ -73,6 +74,7 @@ const CreateProduct = () => {
         originalPrice,
         discountPrice,
         stock,
+        sold_out,
         shopId: seller._id,
         images: base64Images, // array of base64 strings
       }
@@ -195,9 +197,23 @@ const CreateProduct = () => {
           <input
             type="number"
             value={stock}
-            onChange={(e) => setStock(e.target.value)}
+            onChange={(e) => setStock(e.target.value<0?  0: e.target.value)}
             placeholder="0"
             required
+            className="w-full rounded-lg border border-blue-100 bg-blue-50/30 px-3.5 py-2.5 text-sm text-black placeholder:text-black/30 outline-none focus:border-pink-300 focus:bg-white transition-colors duration-150"
+          />
+        </div>
+
+        {/* sold out  */}
+        <div>
+          <label className="block text-xs uppercase tracking-wide font-medium text-blue-500 mb-1.5">
+            Sold Out 
+          </label>
+          <input
+            type="number"
+            value={sold_out}
+            onChange={(e) => setSoldOut(e.target.value<0?  0: e.target.value)}
+            placeholder="0"
             className="w-full rounded-lg border border-blue-100 bg-blue-50/30 px-3.5 py-2.5 text-sm text-black placeholder:text-black/30 outline-none focus:border-pink-300 focus:bg-white transition-colors duration-150"
           />
         </div>

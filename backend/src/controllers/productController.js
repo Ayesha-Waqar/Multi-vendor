@@ -88,24 +88,36 @@ productRouter.get("/get-all-shop-products/:id" , catchAsyncErrors(async(req,res,
 }))
 
 //delete any product
-productRouter.get("/delete-shop-product/:id" , isSeller ,catchAsyncErrors(async(req,res,next)=>{
-    try{
-        const productId= req.params.id
+productRouter.get(
+  "/delete-shop-product/:id",
+  isSeller,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const productId = req.params.id;
 
-        const product = await Product.findByIdAndDelete(productId)
+      const product = await Product.findByIdAndDelete(productId);
 
-        if(!product){
-            return next (new ErrorHandler("product not found ", 400))
+      if (!product) {
+        return next(new ErrorHandler("Product not found", 400));
+      }
+
+      // Delete product images from Cloudinary
+      if (product.images && product.images.length > 0) {
+        for (const image of product.images) {
+          if (image.public_id) {
+            await cloudinary.uploader.destroy(image.public_id);
+          }
         }
-        res.status(200).json({
-            success : true ,
-            message : "Product deleted sucessfully"
-        })
-    }
-    catch (error) {
-        return next(new ErrorHandler(error.message, 500));
-    }
+      }
 
-}))
+      res.status(200).json({
+        success: true,
+        message: "Product deleted successfully",
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
 
 module.exports = productRouter

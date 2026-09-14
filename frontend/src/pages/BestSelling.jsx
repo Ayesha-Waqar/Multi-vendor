@@ -3,6 +3,7 @@ import Header from "../components/Layout/Header";
 import { getAllProducts } from "../redux/actions/product";
 import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "../components/Route/ProductCard/ProductCard";
+import Loader from "../components/Layout/Loader"
 
 const BestSelling = () => {
 
