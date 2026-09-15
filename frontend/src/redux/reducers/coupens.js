@@ -36,4 +36,32 @@ export const CoupenCodeReducer = createReducer(initialState, (builder) => {
       state.success = false;
     })
 
+     //get all coupens of shop 
+    .addCase("getAllShopCoupens", (state) => {
+      state.isLoading = true;
+    })
+    .addCase("getAllShopCoupensSuccess", (state, action) => {
+      state.isLoading = false;
+      // state.success = true;
+      state.coupens = action.payload
+    })
+
+    .addCase("getAllShopCoupensFail", (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload
+    })
+
+     //del a coupen from shop 
+    .addCase("deleteCoupenRequest", (state) => {
+      state.isLoading = true;
+    })
+    .addCase("deleteCoupenRequestSuccess", (state, action) => {
+      state.isLoading = false;
+      state.message = action.payload;
+    })
+    .addCase("deleteCoupenRequestFalse", (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    })
+
 });
