@@ -59,7 +59,7 @@ userRouter.post("/create-user", async (req, res, next) => {
 
     const activationUrl =
       `${process.env.FRONTEND_URL}/user-activation/${activationToken}`;
-      console.log(activationUrl)
+    console.log(activationUrl)
 
     await sendMail({
       email,
@@ -86,7 +86,7 @@ ${activationUrl}`,
 // ================= ACTIVATE ACCOUNT =================
 
 userRouter.post("/user-activation/:token", async (req, res, next) => {
-    // console.log("🔥 USER ACTIVATION ROUTE HIT");
+  // console.log("🔥 USER ACTIVATION ROUTE HIT");
   try {
     const { token } = req.params;
     // console.log("Received token:", token);
@@ -140,7 +140,7 @@ userRouter.post("/user-activation/:token", async (req, res, next) => {
 
   } catch (error) {
     console.log("ERROR BLOCK")
-     console.log(error);
+    console.log(error);
     return next(new ErrorHandler(error.message, 500));
   }
 });
@@ -184,7 +184,7 @@ userRouter.post(
 );
 
 //======================LOAD USER=============
-userRouter.get("/get-user", isAuthenticated, catchAsyncErrors(async (req, res , next) => {
+userRouter.get("/get-user", isAuthenticated, catchAsyncErrors(async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
     if (!user) {

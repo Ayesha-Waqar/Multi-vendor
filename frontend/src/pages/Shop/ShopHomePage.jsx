@@ -9,7 +9,7 @@ const ShopHomePage = () => {
 
         {/* Left - Shop Info */}
         <div className="w-full lg:w-[25%] lg:min-h-[90vh] bg-white rounded-sm shadow-sm p-3 sm:p-4">
-          <ShopInfo isOwner={true} />
+          <ShopInfo  />
         </div>
 
         {/* Right - Shop Profile Data */}

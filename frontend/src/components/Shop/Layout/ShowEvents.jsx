@@ -74,7 +74,7 @@ const handleDelete =(id)=>{
     const slug = params.row.name?.trim().replace(/\s+/g, "-");
 
     return (
-      <Link to={`/product/${slug}`}>
+      <Link to={`/product`}>
         <Button>
           <AiOutlineEye />
         </Button>

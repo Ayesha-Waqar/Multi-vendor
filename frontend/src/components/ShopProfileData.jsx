@@ -1,16 +1,35 @@
-import React, { useState } from 'react'
-import { useSelector } from "react-redux"
+import React, { useState , useEffect } from 'react'
+import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { productData } from "../static/data"
 import ProductCard from "../components/Route/ProductCard/ProductCard"
+import { getProducts } from '../redux/actions/product'
+import { getEvents } from '../redux/actions/event'
 
 const ShopProfileData = ({ isOwner }) => {
   const [active, setActive] = useState(1)
   const { seller } = useSelector((state) => state.seller)
+//get products 
+   const dispatch = useDispatch();
 
-  const shopProducts = productData?.filter(
-    (i) => i.shop?.name === seller?.name
-  )
+  const { products } = useSelector(
+    (state) => state.products
+  );
+
+  useEffect(() => {
+    dispatch(getProducts(seller?._id));
+  }, [dispatch]);
+
+//get shop events 
+   const { events } = useSelector(
+    (state) => state.events
+  );
+
+  useEffect(() => {
+    dispatch(getEvents(seller._id));
+  }, [dispatch]);
+
+
 
   const tabs = [
     { id: 1, label: "Shop Products" },
@@ -51,9 +70,9 @@ const ShopProfileData = ({ isOwner }) => {
       {/* Content */}
       <div className="mt-5 sm:mt-6">
         {active === 1 && (
-          shopProducts && shopProducts.length > 0 ? (
+          products && products.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-              {shopProducts.map((i, index) => (
+              {products.map((i, index) => (
                 <ProductCard data={i} key={index} isShop={true} />
               ))}
             </div>
@@ -65,9 +84,17 @@ const ShopProfileData = ({ isOwner }) => {
         )}
 
         {active === 2 && (
-          <div className="flex items-center justify-center text-sm text-black/40 py-16 bg-blue-50/40 rounded-xl">
-            No running events yet
-          </div>
+           events && events.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+              {events.map((i, index) => (
+                <ProductCard data={i} key={index} isShop={true} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center text-sm text-black/40 py-16 bg-blue-50/40 rounded-xl">
+              No events yet
+            </div>
+          )
         )}
 
         {active === 3 && (
@@ -81,3 +108,4 @@ const ShopProfileData = ({ isOwner }) => {
 }
 
 export default ShopProfileData
+

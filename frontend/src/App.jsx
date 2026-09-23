@@ -136,7 +136,7 @@ const App = () => {
             <ShopHomePage />
           </SellerProtectedRoute>
         } /> */}
-        <Route path="/shop" element={<SellerProtectedRoute> <ShopHomePage /></SellerProtectedRoute>} />
+        {/* <Route path="/shop" element={<SellerProtectedRoute> <ShopHomePage /></SellerProtectedRoute>} /> */}
 
         <Route path="/shop/:id" element={<ShopHomePage />} />
         <Route
