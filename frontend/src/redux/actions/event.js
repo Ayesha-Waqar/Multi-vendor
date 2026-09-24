@@ -60,7 +60,7 @@ export const getEvents = (id) => async (dispatch) => {
         const { data } = await axios.get(
             `${server}/event/get-all-shop-events/${id}`,
         )
-  console.log("events" , data)
+//   console.log("events" , data)
 
         dispatch({
             type: "getAllShopEventsSuccess",

@@ -1,33 +1,37 @@
-import React, { useState , useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { productData } from "../static/data"
 import ProductCard from "../components/Route/ProductCard/ProductCard"
 import { getProducts } from '../redux/actions/product'
 import { getEvents } from '../redux/actions/event'
 
-const ShopProfileData = ({ isOwner }) => {
+const ShopProfileData = ({ shopData }) => {
   const [active, setActive] = useState(1)
-  const { seller } = useSelector((state) => state.seller)
-//get products 
-   const dispatch = useDispatch();
+  const { seller, isSeller } = useSelector((state) => state.seller)
+  const isOwner = isSeller && seller?._id === shopData?._id;
+  //  console.log(isOwner)
+  //get products 
+
+  // console.log(shopData)
+  const dispatch = useDispatch();
 
   const { products } = useSelector(
     (state) => state.products
   );
 
   useEffect(() => {
-    dispatch(getProducts(seller?._id));
-  }, [dispatch]);
+    dispatch(getProducts(shopData?._id)
+    );
+  }, [dispatch, shopData?._id]);
 
-//get shop events 
-   const { events } = useSelector(
+  //get shop events 
+  const { events } = useSelector(
     (state) => state.events
   );
 
   useEffect(() => {
-    dispatch(getEvents(seller._id));
-  }, [dispatch]);
+    dispatch(getEvents(shopData?._id));
+  }, [dispatch, shopData?._id]);
 
 
 
@@ -84,7 +88,7 @@ const ShopProfileData = ({ isOwner }) => {
         )}
 
         {active === 2 && (
-           events && events.length > 0 ? (
+          events && events.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
               {events.map((i, index) => (
                 <ProductCard data={i} key={index} isShop={true} />
