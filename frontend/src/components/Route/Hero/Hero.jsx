@@ -81,7 +81,7 @@ const Hero = () => {
           <div className="order-2 md:order-1">
             <span className="inline-flex items-center gap-2 rounded-full bg-brand-light px-3 py-1 text-xs sm:text-sm font-semibold text-brand-text mb-4">
               <span className="w-1.5 h-1.5 rounded-full bg-brand" />
-              Welcome to Crown Market
+              Welcome to Cartsy
             </span>
 
             <h1

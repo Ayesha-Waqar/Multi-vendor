@@ -17,7 +17,7 @@ import Header from "../components/Layout/Header";
 
 const StarRating = ({ rating }) => {
   const stars = [];
-  const rounded = Math.round(rating || 0);
+  const rounded = Math.round(rating || 4);
   for (let i = 1; i <= 5; i++) {
     stars.push(
       i <= rounded ? (
@@ -71,10 +71,10 @@ const ProductInfoTabs = ({ product, relatedCount }) => {
 
   const joinedDate = product.shop?.createdAt
     ? new Date(product.shop.createdAt).toLocaleDateString("en-US", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-      })
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    })
     : "N/A";
 
   const totalProducts =
@@ -91,11 +91,10 @@ const ProductInfoTabs = ({ product, relatedCount }) => {
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
-            className={`relative flex-1 sm:flex-none px-4 sm:px-6 py-3 text-xs sm:text-sm font-semibold transition-colors ${
-              activeTab === tab.key
+            className={`relative flex-1 sm:flex-none px-4 sm:px-6 py-3 text-xs sm:text-sm font-semibold transition-colors ${activeTab === tab.key
                 ? "text-gray-800"
                 : "text-gray-400 hover:text-gray-600"
-            }`}
+              }`}
           >
             {tab.label}
             {activeTab === tab.key && (
@@ -112,17 +111,22 @@ const ProductInfoTabs = ({ product, relatedCount }) => {
             <div className="flex items-center gap-2 sm:w-56 flex-shrink-0">
               <img
                 src={getSellerAvatarSrc(product.shop)}
-                alt={product.shop?.name}
+                alt={product.shop?.name} nhgxctyujtyx
                 className="w-9 h-9 rounded-full object-cover border-2 border-blue-100 shadow-sm"
               />
               <div>
-                <h4 className="font-semibold text-blue-500 text-sm">
-                  {product.shop?.name}
-                </h4>
+                <Link
+                  to={`/shop/${product.shop?._id || product.shopId || product.id}`}>
+                  <h4
+                    className="font-semibold text-blue-500 text-sm">
+                    {product.shop?.name}
+                  </h4>
+                </Link>
+
                 <div className="flex items-center gap-1">
-                  <StarRating rating={product.shop?.ratings} />
+                  <StarRating rating={4} />
                   <span className="text-gray-400 text-xs">
-                    ({(product.shop?.ratings || 0).toFixed(1)})
+                    ({(product.shop?.ratings || 4).toFixed(1)})
                   </span>
                 </div>
               </div>
@@ -143,7 +147,7 @@ const ProductInfoTabs = ({ product, relatedCount }) => {
                     className="bg-pink-50/60 rounded-xl p-3 flex flex-col gap-1"
                   >
                     <div className="flex items-center gap-2">
-                      <StarRating rating={review.rating} />
+                      <StarRating rating={4} />
                       <span className="text-gray-700 text-xs font-semibold">
                         {review.user || "Anonymous"}
                       </span>
@@ -175,9 +179,9 @@ const ProductInfoTabs = ({ product, relatedCount }) => {
                   {product.shop?.name}
                 </h4>
                 <div className="flex items-center gap-1">
-                  <StarRating rating={product.shop?.ratings} />
+                  <StarRating rating={4} />
                   <span className="text-gray-400 text-xs">
-                    ({(product.shop?.ratings || 0).toFixed(1)}) Ratings
+                    ({(product.shop?.ratings || 4).toFixed(1)}) Ratings
                   </span>
                 </div>
               </div>
@@ -281,8 +285,8 @@ const ProductDetails = () => {
     ? Array.isArray(product.images) && product.images.length > 0
       ? product.images
       : Array.isArray(product.image_Url)
-      ? product.image_Url
-      : [product.images || product.image_Url].filter(Boolean)
+        ? product.image_Url
+        : [product.images || product.image_Url].filter(Boolean)
     : [];
 
   const getImgSrc = (img) => (typeof img === "string" ? img : img?.url);
@@ -372,11 +376,10 @@ const ProductDetails = () => {
                     <button
                       key={idx}
                       onClick={() => setMainImage(src)}
-                      className={`flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden border-2 transition-all ${
-                        mainImage === src
+                      className={`flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden border-2 transition-all ${mainImage === src
                           ? "border-pink-400 shadow-sm"
                           : "border-transparent hover:border-blue-200"
-                      }`}
+                        }`}
                     >
                       <img
                         src={src}
@@ -396,9 +399,9 @@ const ProductDetails = () => {
               </h1>
 
               <div className="flex items-center gap-2 text-xs">
-                <StarRating rating={product.rating || product.ratings} />
+                <StarRating rating={4} />
                 <span className="text-gray-500">
-                  ({(product.rating || product.ratings || 0).toFixed(1)})
+                  ({(product.rating || product.ratings || 4).toFixed(1)})
                 </span>
                 <span className="text-gray-400">|</span>
                 <span className="text-gray-500">
@@ -500,9 +503,10 @@ const ProductDetails = () => {
                   <div>
                     <h4 className="font-semibold text-gray-800 text-sm">
                       {product.shop?.name}
+
                     </h4>
                     <div className="flex items-center gap-1">
-                      <StarRating rating={product.shop?.ratings} />
+                      <StarRating rating={4} />
                     </div>
                   </div>
                 </div>
