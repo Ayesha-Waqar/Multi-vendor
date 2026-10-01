@@ -26,7 +26,7 @@ const ProductCard = ({ data, addToCartHandler }) => {
       ? Math.round(((basePrice - discountPrice) / originalPrice) * 100)
       : 0
 
-  const rating = Math.round(data?.ratings || 0)
+  const rating = 4
 
   return (
     <div className="group relative w-full max-w-[300px] mx-auto bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">

@@ -17,7 +17,7 @@ import Header from "../components/Layout/Header";
 
 const StarRating = ({ rating }) => {
   const stars = [];
-  const rounded = Math.round(rating || 4);
+  const rounded =  4;
   for (let i = 1; i <= 5; i++) {
     stars.push(
       i <= rounded ? (
@@ -506,7 +506,7 @@ const ProductDetails = () => {
 
                     </h4>
                     <div className="flex items-center gap-1">
-                      <StarRating rating={4} />
+                      <StarRating rating={4n} />
                     </div>
                   </div>
                 </div>
