@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllEvents } from "../redux/actions/event";
 import { getAllProducts } from "../redux/actions/product";
+import { addToCart } from "../redux/actions/cart";
+import { toast } from 'react-hot-toast'
 import {
   AiFillStar,
   AiOutlineStar,
@@ -17,7 +19,7 @@ import Header from "../components/Layout/Header";
 
 const StarRating = ({ rating }) => {
   const stars = [];
-  const rounded =  4;
+  const rounded = 4;
   for (let i = 1; i <= 5; i++) {
     stars.push(
       i <= rounded ? (
@@ -92,8 +94,8 @@ const ProductInfoTabs = ({ product, relatedCount }) => {
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
             className={`relative flex-1 sm:flex-none px-4 sm:px-6 py-3 text-xs sm:text-sm font-semibold transition-colors ${activeTab === tab.key
-                ? "text-gray-800"
-                : "text-gray-400 hover:text-gray-600"
+              ? "text-gray-800"
+              : "text-gray-400 hover:text-gray-600"
               }`}
           >
             {tab.label}
@@ -227,6 +229,7 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const { allProducts } = useSelector((state) => state.products || {});
   const { allEvents, events } = useSelector((state) => state.events || {});
+  const { cart } = useSelector((state) => state.cart)
 
   useEffect(() => {
     if (!allProducts || allProducts.length === 0) {
@@ -295,6 +298,8 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [wishlisted, setWishlisted] = useState(false);
 
+
+
   useEffect(() => {
     if (product) {
       setMainImage(getImgSrc(images[0]) || "");
@@ -315,6 +320,21 @@ const ProductDetails = () => {
   const handleDecrease = () => {
     if (quantity > 1) setQuantity((q) => q - 1);
   };
+
+  const addToCartHandler = (id) => {
+    const isItemExists = cart && cart.find((i) => i.id === id)
+    if (isItemExists) {
+      toast.error("Item already in cart ")
+      console.log("erorrrr")
+    }
+    else {
+      const cartData = { ...product, qty: quantity }
+      dispatch(addToCart(cartData))
+      toast.success("Item Added to Cart ! ")
+      console.log("sucesss")
+    }
+  }
+
 
   const origPrice = product.originalPrice || product.price || 0;
   const discPrice = product.discountPrice || product.discount_price || 0;
@@ -377,8 +397,8 @@ const ProductDetails = () => {
                       key={idx}
                       onClick={() => setMainImage(src)}
                       className={`flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden border-2 transition-all ${mainImage === src
-                          ? "border-pink-400 shadow-sm"
-                          : "border-transparent hover:border-blue-200"
+                        ? "border-pink-400 shadow-sm"
+                        : "border-transparent hover:border-blue-200"
                         }`}
                     >
                       <img
@@ -470,6 +490,7 @@ const ProductDetails = () => {
                 <button
                   disabled={product.stock === 0}
                   className="flex-1 flex items-center justify-center gap-1.5 bg-pink-400 hover:bg-pink-500 disabled:bg-gray-300 disabled:cursor-not-allowed text-white text-sm font-semibold py-2 rounded-full shadow-sm transition-all"
+                  onClick={() => { addToCartHandler(product._id) }}
                 >
                   <AiOutlineShoppingCart className="text-base" />
                   Add to Cart
