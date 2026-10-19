@@ -79,8 +79,8 @@ shopRouter.post("/create-shop", async (req, res, next) => {
     await pendingShop.save();
 
     const activationUrl = `${process.env.FRONTEND_URL}/shop-activation/${activationToken}`;
-    console.log("Before sendMail");
-    console.log(activationUrl);
+    // console.log("Before sendMail");
+    // console.log(activationUrl);
 
 
     await sendMail({
@@ -91,7 +91,7 @@ shopRouter.post("/create-shop", async (req, res, next) => {
 
 ${activationUrl}`,
     });
-    console.log("Email sent successfully");
+    // console.log("Email sent successfully");
 
 
     res.status(201).json({

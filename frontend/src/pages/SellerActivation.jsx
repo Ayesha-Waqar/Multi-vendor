@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { server } from "../server"
 
 const SellerActivation = () => {
-  console.log("sellerActivationPage rendered");
+  // console.log("sellerActivationPage rendered");
   const { token } = useParams();
   const navigate = useNavigate();
   const hasRun = useRef(false);
@@ -23,14 +23,14 @@ const SellerActivation = () => {
             withCredentials: true,
           }
         );
-        console.log("data" , data)
+        // console.log("data" , data)
 
         toast.success(data.message || "Account Activated Successfully");
 
         navigate("/shop-login");
       } catch (error) {
-        console.log(toast.error)
-        console.log("activation failed" , error )
+        // console.log(toast.error)
+        // console.log("activation failed" , error )
         toast.error(
           error.response?.data?.message || "Activation Failed"
         );

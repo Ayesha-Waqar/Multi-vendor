@@ -29,8 +29,8 @@ coupenCodeRouter.post("/create-code", catchAsyncErrors(async (req, res, next) =>
         })
     }
     catch (error) {
-        1
-        console.log(error)
+        // 1
+        // console.log(error)
         return next(new ErrorHandler(error.message, 500));
     }
 }))
@@ -38,9 +38,9 @@ coupenCodeRouter.post("/create-code", catchAsyncErrors(async (req, res, next) =>
 coupenCodeRouter.get("/get-all-shop-coupens/:id", catchAsyncErrors(async (req, res, next) => {
     try {
         const shopId = req.params.id
-        console.log(shopId)
+        // console.log(shopId)
         const coupens = await Coupens.find({ "shop._id": new mongoose.Types.ObjectId(shopId) })
-         console.log("Coupens found:", coupens.length);
+        //  console.log("Coupens found:", coupens.length);
 
         res.status(200).json({
             success: true,

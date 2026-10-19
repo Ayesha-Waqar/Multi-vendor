@@ -23,7 +23,7 @@ const UserActivation = () => {
             withCredentials: true,
           }
         );
-        console.log("data" , data)
+        // console.log("data" , data)
 
         toast.success(data.message || "Account Activated Successfully");
 

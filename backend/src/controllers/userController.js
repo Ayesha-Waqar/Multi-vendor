@@ -59,7 +59,7 @@ userRouter.post("/create-user", async (req, res, next) => {
 
     const activationUrl =
       `${process.env.FRONTEND_URL}/user-activation/${activationToken}`;
-    console.log(activationUrl)
+    // console.log(activationUrl)
 
     await sendMail({
       email,
@@ -139,8 +139,8 @@ userRouter.post("/user-activation/:token", async (req, res, next) => {
     sendToken(createdUser, 201, res);
 
   } catch (error) {
-    console.log("ERROR BLOCK")
-    console.log(error);
+    // console.log("ERROR BLOCK")
+    // console.log(error);
     return next(new ErrorHandler(error.message, 500));
   }
 });

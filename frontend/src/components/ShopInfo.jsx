@@ -20,7 +20,7 @@ const ShopInfo = ({ shopData }) => {
     try {
       // console.log("try")
       const { data } = await axios.get(`${server}/shop/logout`, { withCredentials: true })
-      console.log("data", data)
+      // console.log("data", data)
       if (data.success) {
         toast.success(data.message);
         navigate("/");

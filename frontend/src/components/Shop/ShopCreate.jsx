@@ -38,7 +38,7 @@ const ShopCreate = () => {
           withCredentials: true,
         }
       );
-      console.log(data)
+      // console.log(data)
       toast.success(data.message);
       navigate("/shop-login");
     } catch (err) {

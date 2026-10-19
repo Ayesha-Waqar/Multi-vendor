@@ -25,7 +25,7 @@ const ProfileContent = ({ active }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ name, email, phone, zipCode, address1, address2 });
+    // console.log({ name, email, phone, zipCode, address1, address2 });
   };
 
   const handleLogout=async()=>{

@@ -1,35 +1,50 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import { categoriesData, productData } from "../../static/data";
 import DropDown from "./DropDown";
-import { AiOutlineHeart, AiOutlineSearch, AiOutlineShoppingCart } from "react-icons/ai";
+import {
+  AiOutlineHeart,
+  AiOutlineSearch,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { BiMenuAltLeft } from "react-icons/bi";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import logo from "../../assets/logo.png";
 import NavBar from "./NavBar";
-import { useSelector } from "react-redux"
-import Cart from "../Cart/Cart.jsx"
-import Wishlist from "../Wishlist/Wishlist.jsx"
+import { useSelector } from "react-redux";
+import Cart from "../Cart/Cart.jsx";
+import Wishlist from "../Wishlist/Wishlist.jsx";
 
 const Header = ({ activeHeading }) => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+  const { cart } = useSelector((state) => state.cart || {});
+  const { wishlist } = useSelector((state) => state.wishlist || {});
 
-  const { isAuthenticated, user } = useSelector((state) => state.user)
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [sticky, setSticky] = useState(false);
   const [dropDown, setDropDown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [openCart  , setOpenCart] = useState(false)
-  const [openWishlist  , setOpenWishlist] = useState(false)
-
+  const [openCart, setOpenCart] = useState(false);
+  const [openWishlist, setOpenWishlist] = useState(false);
 
   const dropdownRef = useRef(null);
 
+  // Live total count calculations
+  const cartCount = useMemo(
+    () =>
+      cart?.reduce(
+        (acc, item) => acc + Number(item.qty ?? item.quantity ?? 1),
+        0
+      ) || 0,
+    [cart]
+  );
 
-  // console.log(user)
+  const wishlistCount = useMemo(() => wishlist?.length || 0, [wishlist]);
+
   const handleSearchChange = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
@@ -68,9 +83,7 @@ const Header = ({ activeHeading }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-
-
-  return ( 
+  return (
     <header className="w-full">
       {/* Top Header */}
       <div className="w-full py-3 bg-white">
@@ -82,7 +95,6 @@ const Header = ({ activeHeading }) => {
               alt="Cartsy"
               className="h-9 sm:h-12 md:h-14 w-auto"
             />
-
           </Link>
 
           {/* Search - desktop/tablet inline */}
@@ -103,7 +115,9 @@ const Header = ({ activeHeading }) => {
                 {searchData.map((product, index) => (
                   <Link
                     key={index}
-                    to={`/product/${product.name}`}
+                    to={`/product/${encodeURIComponent(
+                      (product.name || "product").replace(/\s+/g, "-")
+                    )}`}
                     className="block px-4 py-3 text-sm sm:text-base hover:bg-gray-100 transition"
                   >
                     {product.name}
@@ -113,7 +127,7 @@ const Header = ({ activeHeading }) => {
             )}
           </div>
 
-          {/* Seller Button + Login/Profile (mobile) + Mobile Menu Toggle */}
+          {/* Actions & Buttons */}
           <div className="ml-auto md:ml-0 shrink-0 flex items-center gap-2">
             <Link
               to="/dashboard"
@@ -123,7 +137,33 @@ const Header = ({ activeHeading }) => {
               <IoIosArrowForward />
             </Link>
 
-            {/* Login/Profile - mobile only, shown next to hamburger */}
+            {/* Mobile Wishlist Button */}
+            <button
+              type="button"
+              onClick={() => setOpenWishlist(true)}
+              aria-label="Wishlist"
+              className="md:hidden relative flex items-center justify-center w-9 h-9 rounded-full border border-gray-200 text-ink hover:bg-gray-100 transition shrink-0"
+            >
+              <AiOutlineHeart size={20} />
+              <span className="absolute -top-1 -right-1 bg-brand-dark text-ink text-[10px] leading-none font-bold rounded-full w-4 h-4 flex items-center justify-center border border-ink/20">
+                {wishlistCount}
+              </span>
+            </button>
+
+            {/* Mobile Cart Button */}
+            <button
+              type="button"
+              onClick={() => setOpenCart(true)}
+              aria-label="Shopping cart"
+              className="md:hidden relative flex items-center justify-center w-9 h-9 rounded-full border border-gray-200 text-ink hover:bg-gray-100 transition shrink-0"
+            >
+              <AiOutlineShoppingCart size={20} />
+              <span className="absolute -top-1 -right-1 bg-brand-dark text-ink text-[10px] leading-none font-bold rounded-full w-4 h-4 flex items-center justify-center border border-ink/20">
+                {cartCount}
+              </span>
+            </button>
+
+            {/* Login/Profile - mobile only */}
             <div className="md:hidden flex items-center">
               {isAuthenticated ? (
                 <Link to="/profile">
@@ -137,7 +177,7 @@ const Header = ({ activeHeading }) => {
                 <Link
                   to="/login"
                   aria-label="Login"
-                  className="flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 text-ink hover:bg-gray-100 transition"
+                  className="flex items-center justify-center w-9 h-9 rounded-full border border-gray-200 text-ink hover:bg-gray-100 transition"
                 >
                   <CgProfile size={20} />
                 </Link>
@@ -150,9 +190,13 @@ const Header = ({ activeHeading }) => {
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileMenuOpen}
-              className="md:hidden flex items-center justify-center w-10 h-10 rounded-md border border-gray-200 text-ink hover:bg-gray-100 transition shrink-0"
+              className="md:hidden flex items-center justify-center w-9 h-9 rounded-md border border-gray-200 text-ink hover:bg-gray-100 transition shrink-0"
             >
-              {mobileMenuOpen ? <HiOutlineX size={22} /> : <HiOutlineMenu size={22} />}
+              {mobileMenuOpen ? (
+                <HiOutlineX size={20} />
+              ) : (
+                <HiOutlineMenu size={20} />
+              )}
             </button>
           </div>
 
@@ -174,7 +218,9 @@ const Header = ({ activeHeading }) => {
                 {searchData.map((product, index) => (
                   <Link
                     key={index}
-                    to={`/product/${product.name}`}
+                    to={`/product/${encodeURIComponent(
+                      (product.name || "product").replace(/\s+/g, "-")
+                    )}`}
                     className="block px-4 py-2.5 text-sm hover:bg-gray-100 transition"
                   >
                     {product.name}
@@ -188,12 +234,14 @@ const Header = ({ activeHeading }) => {
 
       {/* Bottom Navbar */}
       <div
-        className={`bg-accent-light text-ink border-b-2 border-ink/10 transition-all duration-300 ${sticky ? "fixed top-0 left-0 right-0 z-50 shadow-lg" : ""
-          }`}
+        className={`bg-accent-light text-ink border-b-2 border-ink/10 transition-all duration-300 ${
+          sticky ? "fixed top-0 left-0 right-0 z-50 shadow-lg" : ""
+        }`}
       >
         <div
-          className={`max-w-7xl mx-auto px-4 md:py-0 md:h-16 ${mobileMenuOpen ? "flex" : "hidden"
-            } md:flex flex-col md:flex-row md:items-center gap-3 md:gap-0 md:justify-between py-3`}
+          className={`max-w-7xl mx-auto px-4 md:py-0 md:h-16 ${
+            mobileMenuOpen ? "flex" : "hidden"
+          } md:flex flex-col md:flex-row md:items-center gap-3 md:gap-0 md:justify-between py-3`}
         >
           {/* Categories */}
           <div className="relative w-full md:w-auto" ref={dropdownRef}>
@@ -209,8 +257,9 @@ const Header = ({ activeHeading }) => {
               </div>
 
               <IoIosArrowDown
-                className={`ml-3 text-lg text-slate-500 transition-transform duration-300 ${dropDown ? "rotate-180" : ""
-                  }`}
+                className={`ml-3 text-lg text-slate-500 transition-transform duration-300 ${
+                  dropDown ? "rotate-180" : ""
+                }`}
               />
             </div>
 
@@ -230,11 +279,11 @@ const Header = ({ activeHeading }) => {
             />
           </div>
 
-          {/* Wishlist / Cart / Profile */}
+          {/* Wishlist / Cart / Profile - desktop */}
           <div className="flex items-center justify-center md:justify-start gap-5 sm:gap-6 w-full md:w-auto mt-1 pt-3 md:mt-0 md:pt-0 border-t border-ink/10 md:border-none">
-
             {/* Wishlist */}
             <button
+              type="button"
               onClick={() => setOpenWishlist(true)}
               aria-label="Wishlist"
               className="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-white transition"
@@ -242,12 +291,13 @@ const Header = ({ activeHeading }) => {
               <AiOutlineHeart size={20} className="sm:hidden" />
               <AiOutlineHeart size={22} className="hidden sm:block" />
               <span className="absolute -top-1 -right-1 bg-brand-dark text-ink text-[10px] leading-none font-bold rounded-full w-4 h-4 flex items-center justify-center border border-ink/20">
-                0
+                {wishlistCount}
               </span>
             </button>
 
             {/* Cart */}
             <button
+              type="button"
               onClick={() => setOpenCart(true)}
               aria-label="Shopping cart"
               className="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-white transition"
@@ -255,49 +305,41 @@ const Header = ({ activeHeading }) => {
               <AiOutlineShoppingCart size={20} className="sm:hidden" />
               <AiOutlineShoppingCart size={22} className="hidden sm:block" />
               <span className="absolute -top-1 -right-1 bg-brand-dark text-ink text-[10px] leading-none font-bold rounded-full w-4 h-4 flex items-center justify-center border border-ink/20">
-                0
+                {cartCount}
               </span>
             </button>
-
           </div>
 
-          {
-            openCart && <Cart  setOpenCart={setOpenCart}/>
-          }
-          {
-            openWishlist && <Wishlist setOpenWishlist={setOpenWishlist}/>
-          }
-
-          {/* Profile/Login - desktop only (mobile version shown next to hamburger above) */}
+          {/* Profile/Login - desktop only */}
           <div className="hidden md:block">
-            {
-              isAuthenticated ? (
-                <Link to="/profile">
-                  <img
-                    src={user?.avatar?.url}
-                    alt={user?.name}
-                    className="w-10 h-10 rounded-full object-cover border-2 border-pink-400"
-                  />
-                </Link>
-              ) : (
-                <Link
-                  to="/login"
-                  aria-label="Login"
-                  className="flex items-center gap-2 text-sm font-medium text-slate-700 hover:underline"
-                >
-                  Login
-                  <CgProfile size={20} className="sm:hidden" />
-                  <CgProfile size={22} className="hidden sm:block" />
-                </Link>
-              )
-            }
+            {isAuthenticated ? (
+              <Link to="/profile">
+                <img
+                  src={user?.avatar?.url}
+                  alt={user?.name}
+                  className="w-10 h-10 rounded-full object-cover border-2 border-pink-400"
+                />
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                aria-label="Login"
+                className="flex items-center gap-2 text-sm font-medium text-slate-700 hover:underline"
+              >
+                Login
+                <CgProfile size={20} className="sm:hidden" />
+                <CgProfile size={22} className="hidden sm:block" />
+              </Link>
+            )}
           </div>
-
         </div>
       </div>
-    </header>
-);
 
+      {/* Global Modals / Drawers */}
+      {openCart && <Cart setOpenCart={setOpenCart} />}
+      {openWishlist && <Wishlist setOpenWishlist={setOpenWishlist} />}
+    </header>
+  );
 };
 
 export default Header;

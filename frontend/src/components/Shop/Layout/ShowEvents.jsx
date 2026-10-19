@@ -22,11 +22,11 @@ const ShowEvents = () => {
     if (seller?._id) {
       dispatch(getEvents(seller._id));
     }
-    console.log("reloading")
+    // console.log("reloading")
   }, [dispatch, seller?._id]);
 
   useEffect(() => {
-  console.log("Events:", events);
+  // console.log("Events:", events);
 }, [events]);
 
 const handleDelete =(id)=>{

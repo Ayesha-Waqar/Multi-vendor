@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import CountDown from "./CountDown";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,7 +6,8 @@ import { addToCart } from "../../redux/actions/cart";
 import { toast } from 'react-hot-toast'
 
 const EventCard = ({ data }) => {
-
+  const dispatch = useDispatch();
+  const { cart } = useSelector((state) => state.cart || {});
   const [quantity, setQuantity] = useState(1);
 
   if (!data) return null;
@@ -14,9 +15,6 @@ const EventCard = ({ data }) => {
   const imageUrl = data.images?.[0]?.url || data.image_Url?.[0]?.url || (typeof data.image_Url === "string" ? data.image_Url : "");
   const eventName = data.name || "Event";
   const productSlug = encodeURIComponent(eventName.replace(/\s+/g, "-"));
-
-  const { cart } = useSelector((state) => state.cart)
-  const dispatch = useDispatch()
 
   const handleIncrease = () => {
     if (quantity < data.stock) setQuantity((q) => q + 1);
@@ -27,18 +25,15 @@ const EventCard = ({ data }) => {
   };
 
   const addToCartHandler = (id) => {
-    const isItemExists = cart && cart.find((i) => i.id === id)
+    const isItemExists = cart && cart.some((i) => (i._id || i.id) === id);
     if (isItemExists) {
-      toast.error("Item already in cart ")
-      console.log("erorrrr")
+      toast.error("Item already in cart ");
+    } else {
+      const cartData = { ...data, qty: quantity, quantity };
+      dispatch(addToCart(cartData));
+      toast.success("Item Added to Cart ! ");
     }
-    else {
-      const cartData = { ...data, qty: quantity }
-      dispatch(addToCart(cartData))
-      toast.success("Item Added to Cart ! ")
-      console.log("sucesss")
-    }
-  }
+  };
   return (
     <div className="w-full bg-white rounded-xl shadow-md p-6 md:p-8">
       <div className="flex flex-col lg:flex-row items-center gap-10">

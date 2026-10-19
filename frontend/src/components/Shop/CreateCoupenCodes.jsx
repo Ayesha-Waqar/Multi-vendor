@@ -40,7 +40,7 @@ const CreateEvent = () => {
           dispatch(getCoupons(seller._id));
         //   window.location.reload()
         }
-        console.log("reloading")
+        // console.log("reloading")
       }, [dispatch, seller?._id]);
     
     //   useEffect(() => {

@@ -1,9 +1,10 @@
-import React, { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllEvents } from "../redux/actions/event";
 import { getAllProducts } from "../redux/actions/product";
 import { addToCart } from "../redux/actions/cart";
+import { addToWishlist, removeFromWishlist } from "../redux/actions/wishlist";
 import { toast } from 'react-hot-toast'
 import {
   AiFillStar,
@@ -17,9 +18,9 @@ import {
 import ProductCard from "../components/Route/ProductCard/ProductCard";
 import Header from "../components/Layout/Header";
 
-const StarRating = ({ rating }) => {
+const StarRating = ({ rating = 4 }) => {
   const stars = [];
-  const rounded = 4;
+  const rounded = Math.round(Number(rating) || 4);
   for (let i = 1; i <= 5; i++) {
     stars.push(
       i <= rounded ? (
@@ -229,7 +230,8 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const { allProducts } = useSelector((state) => state.products || {});
   const { allEvents, events } = useSelector((state) => state.events || {});
-  const { cart } = useSelector((state) => state.cart)
+  const { cart } = useSelector((state) => state.cart || {});
+  const { wishlist } = useSelector((state) => state.wishlist || {});
 
   useEffect(() => {
     if (!allProducts || allProducts.length === 0) {
@@ -248,7 +250,7 @@ const ProductDetails = () => {
     let decoded = rawSlug;
     try {
       decoded = decodeURIComponent(rawSlug).trim();
-    } catch (e) {
+    } catch {
       decoded = rawSlug.trim();
     }
 
@@ -294,20 +296,33 @@ const ProductDetails = () => {
 
   const getImgSrc = (img) => (typeof img === "string" ? img : img?.url);
 
-  const [mainImage, setMainImage] = useState(getImgSrc(images[0]) || "");
+  const [activeSlug, setActiveSlug] = useState(slug);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [wishlisted, setWishlisted] = useState(false);
 
+  if (activeSlug !== slug) {
+    setActiveSlug(slug);
+    setSelectedImage(null);
+    setQuantity(1);
+  }
 
+  const defaultImage = getImgSrc(images[0]) || "";
+  const mainImage = selectedImage || defaultImage;
 
-  useEffect(() => {
-    if (product) {
-      setMainImage(getImgSrc(images[0]) || "");
-      setQuantity(1);
-      setWishlisted(false); // optional
+  const targetProductId = product?._id || product?.id;
+  const isWishlisted = Boolean(
+    wishlist?.some((i) => (i._id || i.id) === targetProductId)
+  );
+
+  const handleToggleWishlist = () => {
+    if (isWishlisted) {
+      dispatch(removeFromWishlist(targetProductId));
+      toast.success("Removed from wishlist");
+    } else {
+      dispatch(addToWishlist(product));
+      toast.success("Added to wishlist!");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [product]);
+  };
 
   if (!product) {
     return <ProductNotFound />;
@@ -322,18 +337,15 @@ const ProductDetails = () => {
   };
 
   const addToCartHandler = (id) => {
-    const isItemExists = cart && cart.find((i) => i.id === id)
+    const isItemExists = cart && cart.some((i) => (i._id || i.id) === id);
     if (isItemExists) {
-      toast.error("Item already in cart ")
-      console.log("erorrrr")
+      toast.error("Item already in cart");
+    } else {
+      const cartData = { ...product, qty: quantity, quantity };
+      dispatch(addToCart(cartData));
+      toast.success("Item Added to Cart !");
     }
-    else {
-      const cartData = { ...product, qty: quantity }
-      dispatch(addToCart(cartData))
-      toast.success("Item Added to Cart ! ")
-      console.log("sucesss")
-    }
-  }
+  };
 
 
   const origPrice = product.originalPrice || product.price || 0;
@@ -395,7 +407,7 @@ const ProductDetails = () => {
                   return (
                     <button
                       key={idx}
-                      onClick={() => setMainImage(src)}
+                      onClick={() => setSelectedImage(src)}
                       className={`flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden border-2 transition-all ${mainImage === src
                         ? "border-pink-400 shadow-sm"
                         : "border-transparent hover:border-blue-200"
@@ -502,10 +514,12 @@ const ProductDetails = () => {
                   Buy Now
                 </button>
                 <button
-                  onClick={() => setWishlisted((w) => !w)}
+                  type="button"
+                  onClick={handleToggleWishlist}
+                  aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
                   className="flex items-center justify-center w-9 h-9 rounded-full border border-pink-200 hover:bg-pink-50 transition-all shadow-sm self-center sm:self-auto"
                 >
-                  {wishlisted ? (
+                  {isWishlisted ? (
                     <AiFillHeart className="text-lg text-pink-500" />
                   ) : (
                     <AiOutlineHeart className="text-lg text-pink-400" />

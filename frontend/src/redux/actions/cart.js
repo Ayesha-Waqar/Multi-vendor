@@ -1,24 +1,23 @@
-
 // add to cart
 export const addToCart = (data) => async (dispatch, getState) => {
-    dispatch({
-        type: "addToCart",
-        payload: data,
-    })
+  dispatch({
+    type: "addToCart",
+    payload: data,
+  });
 
-    localStorage.setItem("cartItems" , JSON.stringify(getState().cart.cart))
-    return data ;
-}
+  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cart));
+  return data;
+};
 
-
-
-// remove  to cart
+// remove from cart
 export const RemoveFromCart = (data) => async (dispatch, getState) => {
-    dispatch({
-        type: "addToCart",
-        payload: data._id,
-    })
+  const targetId = typeof data === "object" ? data?._id || data?.id : data;
 
-    localStorage.setItem("cartItems" , JSON.stringify(getState().cart.cart))
-    return data ;
-}
+  dispatch({
+    type: "RemoveFromCart",
+    payload: targetId,
+  });
+
+  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cart));
+  return data;
+};

@@ -41,7 +41,7 @@ export const getCoupons  = (id) => async (dispatch) => {
                 }
             }
         )
-  console.log("coupens" , data)
+//   console.log("coupens" , data)
 
         dispatch({
             type: "getAllShopCoupensSuccess",

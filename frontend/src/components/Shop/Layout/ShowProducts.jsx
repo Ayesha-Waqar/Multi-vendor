@@ -22,7 +22,7 @@ const ShowProducts = () => {
     if (seller?._id) {
       dispatch(getProducts(seller._id));
     }
-    console.log("reloading")
+    // console.log("reloading")
   }, [dispatch, seller?._id]);
 
 //   useEffect(() => {
